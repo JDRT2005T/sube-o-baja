@@ -131,7 +131,7 @@ section.view{display:grid;gap:16px}
 .hist div:last-child{border-bottom:0}
 .note{font-size:12.5px;color:var(--muted)}
 
-.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .game{all:unset;cursor:pointer;display:grid;gap:6px;align-content:start;padding:16px;border-radius:10px;background:var(--panel);border:1px solid var(--line)}
 .game:hover,.game:focus-visible{border-color:var(--accent);background:var(--panel2)}
 .game:focus-visible{outline:2px solid var(--accent)}
@@ -253,6 +253,43 @@ table.rk tr.me td{background:rgba(76,141,255,.10)}
 .rkempty{padding:20px 16px;color:var(--muted);font-size:13px}
 .rkme{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
+/* nivel, banners, torneo, señal, perfil */
+.lvchip{display:flex;flex-direction:column;gap:3px;align-items:stretch;background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.lvchip i{display:block;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+.lvchip i b{display:block;height:100%;background:var(--gold);width:0}
+.cd{font-family:var(--f-mono);font-size:12.5px;background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:3px 8px;color:var(--fg)}
+.cd span{color:var(--muted);font-family:var(--f-body)}
+.banner{border:1px solid var(--accent);background:rgba(76,141,255,.08);border-radius:10px;padding:12px 16px;font-weight:500}
+.banner b{color:var(--accent)}
+.tourney-in{display:grid;grid-template-columns:260px minmax(0,1fr);gap:0}
+.champ{padding:16px;border-right:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.champ .crownbig{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.champ b{font-size:18px}
+.crown{color:var(--gold);font-weight:700;margin-left:4px}
+.lvtag{font-size:10.5px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin-left:6px}
+.sgsig{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}
+.sgsig b{font-size:15px}
+.sgsig .exp{font-size:12.5px;font-weight:700;padding:3px 8px;border-radius:4px}
+.sgsig .exp.u{background:var(--upbg);color:var(--up)} .sgsig .exp.d{background:var(--downbg);color:var(--down)}
+.pfgrid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:12px;align-items:start}
+.lvbig{display:flex;align-items:baseline;gap:12px}
+.lvbig b{font-size:28px;font-weight:700;color:var(--gold)}
+.xpbar{height:8px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:var(--gold);width:0;transition:width .5s}
+.lvsteps{display:flex;flex-wrap:wrap;gap:6px}
+.lvsteps span{font-size:11.5px;border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--muted)}
+.lvsteps span.on{border-color:var(--gold);color:var(--gold)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.bdg{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px;background:var(--bg)}
+.bdg b{font-size:13.5px}
+.bdg small{color:var(--muted);font-size:12px;line-height:1.4}
+.bdg.on{border-color:var(--gold);background:rgba(240,185,11,.06)}
+.bdg.on b{color:var(--gold)}
+.bdg:not(.on){opacity:.55}
+.code{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:9px 12px;font-size:15px;letter-spacing:.04em}
+.codein{background:var(--bg);border:1px solid var(--line);color:var(--fg);border-radius:7px;padding:9px 12px;font-family:var(--f-mono);font-size:15px;width:min(280px,100%);text-transform:uppercase}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--panel2);border:1px solid var(--gold);color:var(--fg);border-radius:10px;padding:10px 16px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.5);max-width:calc(100% - 32px)}
+.toast b{color:var(--gold)}
 .modal{position:fixed;inset:0;background:rgba(5,7,10,.7);display:grid;place-items:center;z-index:50;padding:16px}
 .modal .panel{width:min(420px,100%);display:grid;gap:12px;padding:20px}
 
@@ -267,6 +304,9 @@ footer p{max-width:100ch}
   .games{grid-template-columns:repeat(2,minmax(0,1fr))}
   .crises{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rkgrid{grid-template-columns:1fr}
+  .tourney-in{grid-template-columns:1fr} .champ{border-right:0;border-bottom:1px solid var(--line)}
+  .pfgrid{grid-template-columns:1fr}
+  .lvchip{display:none}
   .setup{grid-template-columns:1fr 1fr}
 }
 @media (max-width:760px){
@@ -297,9 +337,12 @@ footer p{max-width:100ch}
       <button data-go="reto">Reto diario</button>
       <button data-go="mono">Duelo vs. Mono</button>
       <button data-go="crisis">Crisis</button>
+      <button data-go="senal">Señal o ruido</button>
       <button data-go="liquidacion">Apalancamiento</button>
       <button data-go="ranking">Ranking</button>
+      <button data-go="perfil">Perfil</button>
     </nav>
+    <button class="lvchip" id="lvChip" data-go="perfil" title="Tu nivel"><span id="lvName">Novato</span><i><b id="lvBar"></b></i></button>
     <span class="live" id="live"><i></i><span id="liveTxt">Conectando…</span></span>
   </div>
   <div class="tape" aria-label="Precios en vivo"><div class="tape-in" id="tape"></div></div>
@@ -312,14 +355,15 @@ footer p{max-width:100ch}
   <div class="intro">
     <div style="display:grid;gap:4px">
       <h2>Mercados en vivo</h2>
-      <p>Criptomonedas y divisas (forex) con precios reales al segundo. Predice el siguiente movimiento sin arriesgar plata.</p>
+      <p>Criptomonedas, divisas (forex) y acciones con precios reales. Predice el siguiente movimiento sin arriesgar plata.</p>
     </div>
   </div>
   <div class="mkt">
     <div class="panel wl">
-      <div class="phead"><div class="seg" id="clsSeg"><button data-c="cripto" aria-pressed="true">Cripto</button><button data-c="forex">Forex</button></div><span class="label">24 h</span></div>
+      <div class="phead"><div class="seg" id="clsSeg"><button data-c="cripto" aria-pressed="true">Cripto</button><button data-c="forex">Forex</button><button data-c="acciones">Acciones</button></div></div>
       <div class="wl-rows" id="wl"></div>
       <p class="note pad" id="fxNote" hidden>Forex: Kraken (precio medio entre compra y venta). El mercado de divisas cierra de viernes en la tarde a domingo en la tarde.</p>
+      <p class="note pad" id="stkNote" hidden>Acciones de EE.UU.: Yahoo Finance, actualizado cada 10 segundos. La bolsa abre de lunes a viernes, de 9:30 a 16:00 hora de Nueva York; fuera de ese horario ves el último precio.</p>
     </div>
     <div class="panel">
       <div class="ahead">
@@ -334,7 +378,7 @@ footer p{max-width:100ch}
         <div class="seg" id="tfSeg" aria-label="Temporalidad">
           <button data-tf="1m" aria-pressed="true">1m</button><button data-tf="5m">5m</button><button data-tf="15m">15m</button><button data-tf="1h">1h</button><button data-tf="4h">4h</button><button data-tf="1d">1D</button>
         </div>
-        <span class="muted small" id="srcTxt">Fuente: Binance (datos públicos)</span>
+        <span class="row"><span class="cd" id="cdTxt"></span><span class="muted small" id="srcTxt">Fuente: Binance (datos públicos)</span></span>
       </div>
       <div class="lwc" id="lwc"><div class="cnote" id="lwcNote">Cargando gráfico…</div></div>
     </div>
@@ -362,7 +406,7 @@ footer p{max-width:100ch}
         </div>
         <p class="note" id="pRankNote"></p>
         <div class="hist" id="pHist"></div>
-        <button class="btn" id="pShare">Copiar mi récord</button>
+        <div class="row"><button class="btn" id="pShare">Copiar mi récord</button><button class="btn" id="pCard">Imagen</button></div>
       </div>
     </div>
   </div>
@@ -370,8 +414,10 @@ footer p{max-width:100ch}
   <div class="games">
     <button class="game" data-go="reto"><span class="label">Diario · difícil</span><h3>Reto diario</h3><p>Un mercado real y secreto, 10 rondas. Usa indicadores, elige entre sube fuerte, lateral o baja fuerte, y apuesta tu confianza.</p></button>
     <button class="game" data-go="mono"><span class="label">Tiempo real</span><h3>Duelo vs. Mono</h3><p>Precio en vivo, apalancamiento real y comisiones. Gana quien llegue primero a la meta de ganancia.</p></button>
+    <button class="game" data-go="senal"><span class="label">Análisis técnico</span><h3>Señal o ruido</h3><p>RSI, cruces de medias, rupturas: señales famosas en gráficos reales. ¿Se cumplieron o fueron ruido?</p></button>
     <button class="game" data-go="crisis"><span class="label">Historia</span><h3>Crisis</h3><p>$10.000 invertidos antes de 2008, el COVID o FTX, con las noticias de esos días. ¿Aguantas?</p></button>
-    <button class="game" data-go="ranking"><span class="label">Competencia</span><h3>Ranking</h3><p>Quién va primero en el reto de hoy, en las predicciones en vivo y en los duelos.</p></button>
+    <button class="game" data-go="liquidacion"><span class="label">Riesgo</span><h3>Apalancamiento</h3><p>Abre un x10, x50 o x125 sobre un día real de mercado y mira si te liquidan.</p></button>
+    <button class="game" data-go="ranking"><span class="label">Competencia</span><h3>Ranking y torneo</h3><p>Quién va primero hoy, el torneo de la semana, las predicciones en vivo y los duelos.</p></button>
   </div>
 </section>
 
@@ -382,6 +428,7 @@ footer p{max-width:100ch}
       <p>Un mercado real y secreto (cripto o forex), sin precios ni fechas. Ves 80 velas y juegas 10 rondas de 5 velas. En cada una eliges <b>sube fuerte</b>, <b>lateral</b> o <b>baja fuerte</b> y cuántos puntos apuestas (1 a 3). Aciertas: ganas esos puntos. Fallas: los pierdes.</p></div>
     <div class="dots" id="retoDots" aria-label="Rondas"></div>
   </div>
+  <div class="banner" id="retoBanner" hidden></div>
   <div class="panel">
     <div class="status"><p id="retoStatus">Cargando…</p><span class="row"><span class="badge" id="retoScore">Puntos: 0</span><span id="retoBadge"></span><span class="small muted num" id="retoStreak"></span></span></div>
     <div class="tools" id="retoTools">
@@ -422,6 +469,8 @@ footer p{max-width:100ch}
         <button class="btn primary" id="btnCopy">Copiar resultado</button>
         <a class="btn" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn" id="shX" target="_blank" rel="noopener">X</a>
+        <button class="btn" id="rvCard">Imagen</button>
+        <button class="btn" id="rvChallenge">Retar a un amigo</button>
         <button class="btn" data-go="ranking">Ver ranking</button>
         <span class="muted small" id="rvNext" style="margin-left:auto"></span>
         <button class="btn" id="btnPractice">Otro gráfico (práctica)</button>
@@ -436,6 +485,7 @@ footer p{max-width:100ch}
     <div><span class="label">Tiempo real · sin límite de tiempo</span><h2>Duelo vs. Mono</h2>
       <p>Operas el precio real en vivo contra un mono que abre y cierra posiciones al azar. Los dos empiezan con $1.000, el mismo apalancamiento y las mismas comisiones. Gana quien llegue primero a la meta. Si alguno cae hasta el límite de pérdida, queda eliminado.</p></div>
   </div>
+  <div class="banner" id="duelBanner" hidden></div>
   <div class="panel" id="duelSetup">
     <div class="setup">
       <div class="field"><label for="dMkt">Mercado</label><select id="dMkt"></select></div>
@@ -477,6 +527,8 @@ footer p{max-width:100ch}
         <button class="btn primary" id="mCopy">Copiar resultado</button>
         <a class="btn" id="mWa" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn" id="mX" target="_blank" rel="noopener">X</a>
+        <button class="btn" id="mCard">Imagen</button>
+        <button class="btn" id="mChallenge">Retar a un amigo</button>
         <button class="btn" id="monoAgain">Revancha</button>
         <button class="btn" data-go="ranking">Ver ranking</button>
       </div>
@@ -518,6 +570,7 @@ footer p{max-width:100ch}
           <button class="btn primary" id="cCopy">Copiar resultado</button>
           <a class="btn" id="cWa" target="_blank" rel="noopener">WhatsApp</a>
           <a class="btn" id="cX" target="_blank" rel="noopener">X</a>
+          <button class="btn" id="cCard">Imagen</button>
           <button class="btn" id="cOther">Elegir otra crisis</button>
         </div>
       </div>
@@ -573,13 +626,84 @@ footer p{max-width:100ch}
     <div><span class="label">Competencia</span><h2>Ranking</h2><p>Puntos de predicción y duelos = aciertos (o victorias) menos fallos (o derrotas). Así gana el que es preciso, no el que juega más.</p></div>
     <div class="rkme"><span class="muted small">Tu nombre:</span><b id="rkName">—</b><button class="btn" id="rkEdit">Cambiar</button><button class="btn" id="rkRefresh">Actualizar</button></div>
   </div>
+  <div class="panel tourney">
+    <div class="phead"><span class="label" id="rkWeekT">Torneo semanal</span><span class="muted small num" id="rkWeekLeft"></span></div>
+    <div class="tourney-in">
+      <div class="champ" id="rkChamp"></div>
+      <div class="tbl-wrap" id="rkWeek"></div>
+    </div>
+    <p class="note pad" style="padding-top:0">Suma de tus puntos del reto diario de lunes a domingo. El primero del domingo a medianoche gana la insignia de <b>Campeón semanal</b> y sale con corona en el ranking toda la semana siguiente.</p>
+  </div>
   <div class="rkgrid">
     <div class="panel"><div class="phead"><span class="label" id="rkRetoT">Reto de hoy</span></div><div class="tbl-wrap" id="rkReto"></div></div>
     <div class="panel"><div class="phead"><span class="label">Predicción en vivo</span><span class="muted small">mín. 10 jugadas</span></div><div class="tbl-wrap" id="rkPred"></div></div>
     <div class="panel"><div class="phead"><span class="label">Duelos vs. Mono</span></div><div class="tbl-wrap" id="rkMono"></div></div>
   </div>
 </section>
+
+<!-- SEÑAL O RUIDO -->
+<section class="view" id="v-senal" hidden>
+  <div class="ghead">
+    <div><span class="label">Análisis técnico · datos reales</span><h2>Señal o ruido</h2>
+      <p>Buscamos en gráficos reales los momentos en que apareció una señal famosa del análisis técnico. Tú decides si se cumplió en las 10 velas siguientes o si fue puro ruido. Son 5 rondas.</p></div>
+    <div class="dots" id="sgDots"></div>
+  </div>
+  <div class="panel">
+    <div class="status"><p id="sgStatus">Cargando…</p><span id="sgBadge"></span></div>
+    <div class="sgsig" id="sgSig"></div>
+    <canvas class="chart" id="sgCv" aria-label="Gráfico con la señal"></canvas>
+    <div class="ctrls" id="sgBtns">
+      <button class="big u" id="sgYes" disabled>Se cumplió<small id="sgYesS"></small></button>
+      <button class="big n" id="sgNo" disabled>Fue ruido<small>no se cumplió</small></button>
+    </div>
+    <div class="fb" id="sgFb" aria-live="polite"></div>
+    <div class="row" style="padding:0 16px 14px" id="sgNextRow" hidden><button class="btn primary" id="sgNext">Siguiente ronda</button></div>
+  </div>
+  <div class="panel result" id="sgResult" hidden>
+    <div class="reveal"><span class="label">Resultado</span><h3 id="sgTitle"></h3></div>
+    <p class="lesson" id="sgLesson"></p>
+    <div class="row"><button class="btn primary" id="sgAgain">Jugar otra vez</button><button class="btn" id="sgCard">Imagen</button><button class="btn" id="sgCopy">Copiar resultado</button></div>
+  </div>
+</section>
+
+<!-- PERFIL -->
+<section class="view" id="v-perfil" hidden>
+  <div class="ghead">
+    <div><span class="label">Tu progreso</span><h2 id="pfTitle">Perfil</h2><p>Ganas experiencia jugando y acertando. Las insignias se desbloquean solas.</p></div>
+    <div class="rkme"><span class="muted small">Nombre:</span><b id="pfName">—</b><button class="btn" id="pfEdit">Cambiar</button></div>
+  </div>
+  <div class="pfgrid">
+    <div class="panel pad" style="display:grid;gap:12px;align-content:start">
+      <span class="label">Nivel</span>
+      <div class="lvbig"><b id="pfLv">Novato</b><span class="num muted" id="pfXp">0 XP</span></div>
+      <div class="xpbar"><i id="pfXpBar"></i></div>
+      <p class="muted small" id="pfNext"></p>
+      <div class="lvsteps" id="pfSteps"></div>
+      <span class="label" style="margin-top:6px">Estadísticas</span>
+      <div class="pstats" id="pfStats" style="grid-template-columns:repeat(2,1fr)"></div>
+    </div>
+    <div class="panel pad" style="display:grid;gap:12px;align-content:start">
+      <span class="label">Insignias <span class="num" id="pfBadgeN"></span></span>
+      <div class="badges" id="pfBadges"></div>
+    </div>
+  </div>
+  <div class="panel pad" style="display:grid;gap:12px">
+    <span class="label">Guardar tu progreso</span>
+    <p class="muted small" style="max-width:80ch">Tu progreso vive en este navegador. Con tu <b>código de recuperación</b> lo guardas en la nube y lo recuperas en otro celular o computador. Guárdalo en un lugar seguro: quien tenga el código puede usar tu perfil.</p>
+    <div class="row"><code class="code num" id="pfCode">—</code><button class="btn" id="pfCopy">Copiar código</button><button class="btn primary" id="pfSave">Guardar en la nube</button><span class="muted small" id="pfSaveMsg"></span></div>
+    <div class="row"><input type="text" id="pfIn" placeholder="SB-XXXX-XXXX-XXXX-XXXX" maxlength="22" aria-label="Código de recuperación" class="codein"><button class="btn" id="pfLoad">Usar este código aquí</button><span class="muted small" id="pfLoadMsg"></span></div>
+  </div>
+</section>
 </main>
+
+<div class="modal" id="cardModal" hidden role="dialog" aria-modal="true" aria-label="Imagen para compartir">
+  <div class="panel" style="width:min(460px,100%)">
+    <img id="cardImg" alt="Imagen de tu resultado" style="width:100%;border-radius:8px;border:1px solid var(--line)">
+    <div class="row"><button class="btn primary" id="cardShare">Compartir</button><a class="btn" id="cardDl" download="sube-baja.png">Descargar</a><button class="btn" id="cardClose">Cerrar</button></div>
+    <p class="muted small" id="cardMsg">En el celular, "Compartir" la manda directo a WhatsApp, Instagram o TikTok.</p>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
 
 <div class="modal" id="nameModal" hidden role="dialog" aria-modal="true" aria-labelledby="nameH">
   <div class="panel">
@@ -593,7 +717,7 @@ footer p{max-width:100ch}
 
 <footer>
   <div class="wrap" style="display:grid;gap:6px">
-    <p><b>Simulador educativo. No es asesoría financiera y no se usa plata real.</b> Cripto: API pública de Binance. Forex: API pública de Kraken. Las crisis de bolsa (2008, COVID, punto com, GameStop, LUNA) están reconstruidas a partir de precios de cierre conocidos y son aproximadas.</p>
+    <p><b>Simulador educativo. No es asesoría financiera y no se usa plata real.</b> Cripto: API pública de Binance. Forex: API pública de Kraken. Acciones: Yahoo Finance (cada 10 segundos). Las crisis de bolsa (2008, COVID, punto com, GameStop, LUNA) están reconstruidas a partir de precios de cierre conocidos y son aproximadas.</p>
   </div>
 </footer>
 
@@ -636,13 +760,18 @@ const SYMS={
   BTCUSDT:{d:'BTC/USDT',n:'Bitcoin',src:'b'},ETHUSDT:{d:'ETH/USDT',n:'Ethereum',src:'b'},SOLUSDT:{d:'SOL/USDT',n:'Solana',src:'b'},BNBUSDT:{d:'BNB/USDT',n:'BNB',src:'b'},
   XRPUSDT:{d:'XRP/USDT',n:'XRP',src:'b'},DOGEUSDT:{d:'DOGE/USDT',n:'Dogecoin',src:'b'},ADAUSDT:{d:'ADA/USDT',n:'Cardano',src:'b'},LINKUSDT:{d:'LINK/USDT',n:'Chainlink',src:'b'},
   EURUSD:{d:'EUR/USD',n:'Euro / Dólar',src:'k'},GBPUSD:{d:'GBP/USD',n:'Libra / Dólar',src:'k'},AUDUSD:{d:'AUD/USD',n:'Dólar australiano / Dólar',src:'k'},
-  USDCAD:{d:'USD/CAD',n:'Dólar / Dólar canadiense',src:'k'},USDCHF:{d:'USD/CHF',n:'Dólar / Franco suizo',src:'k'},EURGBP:{d:'EUR/GBP',n:'Euro / Libra',src:'k'},EURCHF:{d:'EUR/CHF',n:'Euro / Franco suizo',src:'k'}
+  USDCAD:{d:'USD/CAD',n:'Dólar / Dólar canadiense',src:'k'},USDCHF:{d:'USD/CHF',n:'Dólar / Franco suizo',src:'k'},EURGBP:{d:'EUR/GBP',n:'Euro / Libra',src:'k'},EURCHF:{d:'EUR/CHF',n:'Euro / Franco suizo',src:'k'},
+  AAPL:{d:'AAPL',n:'Apple',src:'s'},TSLA:{d:'TSLA',n:'Tesla',src:'s'},NVDA:{d:'NVDA',n:'Nvidia',src:'s'},MSFT:{d:'MSFT',n:'Microsoft',src:'s'},AMZN:{d:'AMZN',n:'Amazon',src:'s'},
+  GOOGL:{d:'GOOGL',n:'Alphabet (Google)',src:'s'},META:{d:'META',n:'Meta',src:'s'},SPY:{d:'SPY',n:'S&P 500 (fondo SPY)',src:'s'},QQQ:{d:'QQQ',n:'Nasdaq 100 (fondo QQQ)',src:'s'}
 };
-const ALL=Object.keys(SYMS),CRYPTO=ALL.filter(s=>SYMS[s].src==='b'),FX=ALL.filter(s=>SYMS[s].src==='k');
+const ALL=Object.keys(SYMS),CRYPTO=ALL.filter(s=>SYMS[s].src==='b'),FX=ALL.filter(s=>SYMS[s].src==='k'),STK=ALL.filter(s=>SYMS[s].src==='s');
+const CLS={b:'cripto',k:'forex',s:'acciones'},CLS_DEF={cripto:'BTCUSDT',forex:'EURUSD',acciones:'AAPL'};
+const clsOf=s=>CLS[SYMS[s].src];
+const FN=SB_URL+'/functions/v1/sob-acciones';
 const K2S={};FX.forEach(s=>{K2S[SYMS[s].d]=s});
-const isFx=s=>SYMS[s].src==='k';
+const isFx=s=>SYMS[s].src==='k',isStk=s=>SYMS[s].src==='s';
 const short=s=>SYMS[s].d.split('/')[0];
-function dec(s,p){if(isFx(s))return s.includes('JPY')?3:5;return p>=100?2:p>=1?4:p>=.01?5:7}
+function dec(s,p){if(isStk(s))return 2;if(isFx(s))return s.includes('JPY')?3:5;return p>=100?2:p>=1?4:p>=.01?5:7}
 function fmtS(s,p){if(!isFinite(p))return '—';return p.toLocaleString('es-CO',{minimumFractionDigits:dec(s,p),maximumFractionDigits:dec(s,p)})}
 const TFMS={'1m':6e4,'5m':3e5,'15m':9e5,'1h':36e5,'4h':144e5,'1d':864e5};
 const TFK={'1m':1,'5m':5,'15m':15,'1h':60,'4h':240,'1d':1440};
@@ -659,7 +788,10 @@ async function klinesK(sym,ivMin){
   const key=Object.keys(j.result).find(k=>k!=='last');
   return j.result[key].map(a=>({t:a[0]*1000,o:+a[1],h:+a[2],l:+a[3],c:+a[4],v:(+a[6])*((+a[5])||(+a[4]))}));
 }
-async function history(sym,tf,limit){if(isFx(sym))return (await klinesK(sym,TFK[tf])).slice(-limit);return klines(sym,tf,{limit})}
+async function klinesS(sym,tf){const r=await fetchT(FN+'?m=k&s='+sym+'&tf='+tf,{},15000);if(!r.ok)throw new Error('HTTP '+r.status);let ks=await r.json();if(!Array.isArray(ks))throw new Error('sin datos');
+  if(tf==='4h'){const g=new Map();ks.forEach(k=>{const key=new Date(k.t).toISOString().slice(0,10)+'-'+Math.floor(new Date(k.t).getUTCHours()/4);const b=g.get(key);if(!b)g.set(key,{...k});else{b.h=Math.max(b.h,k.h);b.l=Math.min(b.l,k.l);b.c=k.c;b.v+=k.v}});ks=[...g.values()]}
+  return ks}
+async function history(sym,tf,limit){if(isStk(sym))return (await klinesS(sym,tf)).slice(-limit);if(isFx(sym))return (await klinesK(sym,TFK[tf])).slice(-limit);return klines(sym,tf,{limit})}
 
 /* ---------- escenarios reconstruidos (crisis de bolsa) ---------- */
 const SC={
@@ -720,10 +852,12 @@ function drawChart(cv,cs,o={}){
   const padR=o.hideAxis?12:74,padL=10,padT=16,padB=o.dates?28:14;
   const slots=Math.max(o.slots||cs.length,1);
   const closes=cs.map(c=>c.c);
-  const ma20=ind.ma20?sma(closes,20):null,ma50=ind.ma50?sma(closes,50):null,bb=ind.bb?boll(closes):null,rs=ind.rsi?rsi(closes):null;
+  const pre=o.pre||{};
+  const ma20=ind.ma20?sma(closes,20):null,ma50=ind.ma50?sma(closes,50):null,bb=pre.bb||(ind.bb?boll(closes):null),rs=pre.rsi||(ind.rsi?rsi(closes):null);
   const rsiH=rs?Math.round((H-padT-padB)*.22):0,mainB=H-padB-(rs?rsiH+12:0);
   let lo=Infinity,hi=-Infinity;for(const c of cs){if(c.l<lo)lo=c.l;if(c.h>hi)hi=c.h}
   if(bb)bb.up.forEach((v,i)=>{if(v!=null){hi=Math.max(hi,v);lo=Math.min(lo,bb.lo[i])}});
+  (pre.lines||[]).forEach(l=>l.data.forEach(v=>{if(v!=null){hi=Math.max(hi,v);lo=Math.min(lo,v)}}));
   (o.lines||[]).forEach(l=>{if(l.fit){lo=Math.min(lo,l.y);hi=Math.max(hi,l.y)}});
   if(!isFinite(lo)){lo=0;hi=1}
   if(hi-lo<hi*1e-6){hi*=1.01;lo*=.99}
@@ -743,6 +877,7 @@ function drawChart(cv,cs,o={}){
   cs.forEach((c,i)=>{const up=c.c>=c.o,col=up?C('--up'):C('--down');x.strokeStyle=x.fillStyle=col;const cx=Math.round(X(i))+.5;
     x.beginPath();x.moveTo(cx,Y(c.h));x.lineTo(cx,Y(c.l));x.stroke();const y1=Y(Math.max(c.o,c.c)),y2=Y(Math.min(c.o,c.c));x.fillRect(Math.round(cx-bw/2),y1,Math.max(1,Math.round(bw)),Math.max(1,y2-y1))});
   if(ma20)line(ma20,C('--c-ma20'),1.6);if(ma50)line(ma50,C('--c-ma50'),1.6);
+  (pre.lines||[]).forEach(l=>line(l.data,l.color,l.w||1.8,l.dash));
   if(rs){const t0=mainB+12,t1=H-padB,RY=v=>t0+(100-v)/100*(t1-t0);x.strokeStyle=C('--line');x.strokeRect(padL+.5,t0+.5,W-padR-padL,t1-t0);
     [30,70].forEach(v=>{x.strokeStyle=C('--grid');x.setLineDash([3,3]);x.beginPath();x.moveTo(padL,RY(v));x.lineTo(W-padR,RY(v));x.stroke();x.setLineDash([]);x.fillStyle=C('--muted');x.font='10px "IBM Plex Mono",monospace';x.fillText(String(v),padL+6,RY(v)-3)});
     x.fillStyle=C('--muted');x.font='600 10px "IBM Plex Sans",sans-serif';x.fillText('RSI 14',padL+30,t0+12);
@@ -796,7 +931,7 @@ const ME={id:load('sob-player')||uuid(),name:load('sob-name')||''};save('sob-pla
 const RK={pred:load('sob-rk-pred')||{wins:0,plays:0},mono:load('sob-rk-mono')||{wins:0,plays:0}};
 async function sb(path,opt={}){const r=await fetchT(SB_URL+'/rest/v1/'+path,{...opt,headers:{apikey:SB_KEY,'Content-Type':'application/json',...(opt.headers||{})}});const t=await r.text();let j=null;try{j=t?JSON.parse(t):null}catch(e){}if(!r.ok)throw new Error((j&&j.message)||('HTTP '+r.status));return j}
 function submit(game,period,score,wins,plays,detail){if(!ME.name)return Promise.resolve(false);
-  return sb('rpc/sob_submit',{method:'POST',body:JSON.stringify({p_game:game,p_period:String(period),p_player:ME.id,p_name:ME.name,p_score:score,p_wins:wins,p_plays:plays,p_detail:detail||{}})}).then(()=>true,e=>{console.warn('ranking:',e.message);return false})}
+  return sb('rpc/sob_submit',{method:'POST',body:JSON.stringify({p_game:game,p_period:String(period),p_player:ME.id,p_name:ME.name,p_score:score,p_wins:wins,p_plays:plays,p_detail:{...(detail||{}),lvl:lvlOf(C.xp).name}})}).then(()=>true,e=>{console.warn('ranking:',e.message);return false})}
 let nameCb=null;
 function askName(cb){nameCb=cb||null;$('#nameIn').value=ME.name;$('#nameErr').textContent='';$('#nameModal').hidden=false;setTimeout(()=>$('#nameIn').focus(),30)}
 $('#nameOk').onclick=()=>{const v=$('#nameIn').value.trim().replace(/[^\p{L}\p{N} _.\-]/gu,'');if(v.length<2||v.length>20){$('#nameErr').textContent='Usa entre 2 y 20 letras o números.';return}
@@ -807,52 +942,68 @@ function paintName(){$('#rkName').textContent=ME.name||'sin nombre';predRankNote
 $('#rkEdit').onclick=()=>askName(()=>{if(RK.pred.plays)submit('pred','all',0,RK.pred.wins,RK.pred.plays);if(RK.mono.plays)submit('mono','all',0,RK.mono.wins,RK.mono.plays);loadRanking()});
 function rkTable(rows,cols,empty){if(!rows||!rows.length)return '<p class="rkempty">'+empty+'</p>';
   return '<table class="rk"><thead><tr><th>#</th><th>Nombre</th>'+cols.map(c=>'<th class="n">'+c.h+'</th>').join('')+'</tr></thead><tbody>'+
-    rows.map((r,i)=>'<tr'+(r.player===ME.id?' class="me"':'')+'><td class="'+(i===0?'pos1':'')+'">'+(i+1)+'</td><td>'+esc(r.name)+(r.player===ME.id?' <span class="muted">(tú)</span>':'')+'</td>'+cols.map(c=>'<td class="n">'+c.f(r)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
+    rows.map((r,i)=>'<tr'+(r.player===ME.id?' class="me"':'')+'><td class="'+(i===0?'pos1':'')+'">'+(i+1)+'</td><td>'+esc(r.name)+(r.player===WEEK.champ?'<span class="crown" title="Campeón semanal">♛</span>':'')+(r.detail&&r.detail.lvl?'<span class="lvtag">'+esc(r.detail.lvl)+'</span>':'')+(r.player===ME.id?' <span class="muted">(tú)</span>':'')+'</td>'+cols.map(c=>'<td class="n">'+c.f(r)+'</td>').join('')+'</tr>').join('')+'</tbody></table>'}
 let rkTimer=null;
 async function loadRanking(){
   const n=todayNum();$('#rkRetoT').textContent='Reto de hoy · #'+n;
   const q=(s)=>sb('sob_records?'+s).catch(()=>null);
-  const [a,b,c]=await Promise.all([
-    q('select=name,player,score,wins&game=eq.reto&period=eq.'+n+'&order=score.desc,created_at.asc&limit=50'),
-    q('select=name,player,score,wins,plays&game=eq.pred&period=eq.all&plays=gte.10&order=score.desc,plays.asc&limit=50'),
-    q('select=name,player,score,wins,plays&game=eq.mono&period=eq.all&order=score.desc,wins.desc&limit=50')]);
+  const wk=weekRange(n),rpc=(f,t)=>sb('rpc/sob_weekly',{method:'POST',body:JSON.stringify({p_from:f,p_to:t})}).catch(()=>null);
+  const [a,b,c,w,lw]=await Promise.all([
+    q('select=name,player,score,wins,detail&game=eq.reto&period=eq.'+n+'&order=score.desc,created_at.asc&limit=50'),
+    q('select=name,player,score,wins,plays,detail&game=eq.pred&period=eq.all&plays=gte.10&order=score.desc,plays.asc&limit=50'),
+    q('select=name,player,score,wins,plays,detail&game=eq.mono&period=eq.all&order=score.desc,wins.desc&limit=50'),
+    rpc(wk.from,wk.to),rpc(wk.from-7,wk.from-1)]);
   const off='<p class="rkempty">No se pudo cargar el ranking. Revisa tu conexión.</p>';
+  const champ=lw&&lw.length&&Number(lw[0].total)>0?lw[0]:null;WEEK.champ=champ?champ.player:null;
+  $('#rkChamp').innerHTML=champ?'<span class="crownbig">♛ Campeón de la semana pasada</span><b>'+esc(champ.name)+'</b><span class="muted small">'+(Number(champ.total)>0?'+':'')+Number(champ.total)+' puntos en '+champ.days+(champ.days===1?' reto':' retos')+'</span>':'<span class="crownbig">♛ Campeón semanal</span><span class="muted small">Todavía no hay campeón. El primero en ganar una semana completa se lleva la corona.</span>';
+  if(champ&&champ.player===ME.id)onEvent('champ',{});
+  $('#rkWeekT').textContent='Torneo semanal · '+fDay(wk.from)+' a '+fDay(wk.to);
+  $('#rkWeek').innerHTML=w?rkTable(w,[{h:'Puntos',f:r=>(Number(r.total)>0?'+':'')+Number(r.total)},{h:'Retos',f:r=>r.days+'/7'}],'Nadie ha sumado puntos esta semana. Juega el reto diario para entrar.'):off;
   $('#rkReto').innerHTML=a?rkTable(a,[{h:'Puntos',f:r=>(r.score>0?'+':'')+Number(r.score)},{h:'Aciertos',f:r=>r.wins+'/10'}],'Nadie ha jugado el reto de hoy. ¡Sé el primero!'):off;
   $('#rkPred').innerHTML=b?rkTable(b,[{h:'Puntos',f:r=>Number(r.score)},{h:'Aciertos',f:r=>r.wins+'/'+r.plays},{h:'%',f:r=>Math.round(r.wins/r.plays*100)+'%'}],'Todavía nadie llega a 10 predicciones.'):off;
   $('#rkMono').innerHTML=c?rkTable(c,[{h:'Puntos',f:r=>Number(r.score)},{h:'Ganados',f:r=>r.wins+'/'+r.plays}],'Todavía no hay duelos terminados.'):off;
 }
 $('#rkRefresh').onclick=loadRanking;
+const WEEK={champ:null};
+// semana de lunes a domingo, en números de reto
+function weekRange(n){const wd=(new Date().getDay()+6)%7;return{from:n-wd,to:n-wd+6}}
+function fDay(n){const d=new Date(EPOCH+(n-1)*DAY+12*36e5);return d.getDate()+' '+MESES[d.getMonth()]}
+function weekLeft(){const d=new Date(),wd=(d.getDay()+6)%7,end=new Date(d.getFullYear(),d.getMonth(),d.getDate()+(7-wd));const ms=end-d,dd=Math.floor(ms/DAY),h=Math.floor(ms%DAY/36e5),m=Math.floor(ms%36e5/6e4);$('#rkWeekLeft').textContent='Termina en '+(dd?dd+' d ':'')+h+' h '+m+' min'}
+setInterval(()=>{if(current==='ranking')weekLeft()},30000);
 
 /* ---------- navegación ---------- */
-const VIEWS=['mercados','reto','mono','crisis','liquidacion','ranking'];
+const VIEWS=['mercados','reto','mono','crisis','senal','liquidacion','ranking','perfil'];
 let current='mercados';
 function go(v){if(!VIEWS.includes(v))v='mercados';current=v;
   VIEWS.forEach(n=>{$('#v-'+n).hidden=n!==v});
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.go===v?'page':'false'));
   try{history.replaceState(null,'','#'+v)}catch(e){}
   window.scrollTo(0,0);
-  if(v==='reto'&&!RT)setupReto(false);
+  if(v==='reto'&&!RT)setupReto(false,RETO_SEED);
+  if(v==='senal'&&!SG.ks&&!SG.req)sgStart();
+  if(v==='perfil')renderPerfil();
   if(v==='liquidacion')liqStats();
-  clearInterval(rkTimer);if(v==='ranking'){paintName();loadRanking();rkTimer=setInterval(loadRanking,30000)}
+  clearInterval(rkTimer);if(v==='ranking'){paintName();weekLeft();loadRanking();rkTimer=setInterval(loadRanking,30000)}
   if(v==='mono')duelRules();
   redraw();
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
-function redraw(){if(current==='reto')renderReto();if(current==='crisis'&&CR)renderCrisis();if(current==='liquidacion')renderLiq()}
+function redraw(){if(current==='reto')renderReto();if(current==='senal')sgRender();if(current==='crisis'&&CR)renderCrisis();if(current==='liquidacion')renderLiq()}
 let rT;window.addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(redraw,80)});
 
 /* =========================================================
    MERCADOS EN VIVO
    ========================================================= */
-const M={sym:'BTCUSDT',tf:'1m',cls:'cripto',px:{},o:{},hi:{},lo:{},q:{},lastT:{},L:null,wsT:null,wsK:null,wsF:null,sim:false,back:2000,fxBack:3000};
+const M={sym:'BTCUSDT',tf:'1m',cls:'cripto',px:{},o:{},hi:{},lo:{},q:{},lastT:{},open:{},close:{},L:null,wsT:null,wsK:null,wsF:null,sim:false,back:2000,fxBack:3000};
 function setLive(on,txt){$('#live').classList.toggle('on',on);$('#liveTxt').textContent=txt||(on?'En vivo':'Sin conexión')}
 const wl=$('#wl');
-function buildWL(){wl.innerHTML='';ALL.filter(s=>(M.cls==='forex')===isFx(s)).forEach(s=>{const b=document.createElement('button');b.className='wl-row';b.dataset.s=s;b.setAttribute('aria-pressed',s===M.sym);
-  const [a,q]=SYMS[s].d.split('/');b.innerHTML='<b>'+a+'<span class="muted" style="font-weight:400">/'+q+'</span></b><span class="px" data-px>—</span><span class="nm">'+SYMS[s].n+'</span><span class="ch" data-ch>—</span>';
-  b.onclick=()=>selectSym(s);wl.appendChild(b);if(M.px[s])paintSym(s)});$('#fxNote').hidden=M.cls!=='forex'}
-$('#clsSeg').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;M.cls=b.dataset.c;$('#clsSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));buildWL();selectSym(M.cls==='forex'?'EURUSD':'BTCUSDT')});
+function buildWL(){wl.innerHTML='';ALL.filter(s=>clsOf(s)===M.cls).forEach(s=>{const b=document.createElement('button');b.className='wl-row';b.dataset.s=s;b.setAttribute('aria-pressed',s===M.sym);
+  const [a,q]=SYMS[s].d.split('/');b.innerHTML='<b>'+a+(q?'<span class="muted" style="font-weight:400">/'+q+'</span>':'')+'</b><span class="px" data-px>—</span><span class="nm">'+SYMS[s].n+'</span><span class="ch" data-ch>—</span>';
+  b.onclick=()=>selectSym(s);wl.appendChild(b);if(M.px[s])paintSym(s)});$('#fxNote').hidden=M.cls!=='forex';$('#stkNote').hidden=M.cls!=='acciones'}
+function setCls(c){M.cls=c;$('#clsSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.c===c));buildWL()}
+$('#clsSeg').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;setCls(b.dataset.c);selectSym(CLS_DEF[M.cls])});
 function buildTape(){const t=$('#tape');let h='';for(let k=0;k<2;k++)ALL.forEach(s=>{h+='<button class="tape-item" data-t="'+s+'" tabindex="-1"><b>'+SYMS[s].d+'</b><span class="num" data-px>—</span><span class="num" data-ch>—</span></button>'});t.innerHTML=h;
-  t.querySelectorAll('.tape-item').forEach(el=>el.addEventListener('click',()=>{const s=el.dataset.t;const c=isFx(s)?'forex':'cripto';if(c!==M.cls){M.cls=c;$('#clsSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.c===c));buildWL()}go('mercados');selectSym(s)}))}
+  t.querySelectorAll('.tape-item').forEach(el=>el.addEventListener('click',()=>{const s=el.dataset.t;if(clsOf(s)!==M.cls)setCls(clsOf(s));go('mercados');selectSym(s)}))}
 buildTape();buildWL();
 function paintSym(s){
   const p=M.px[s],ch=M.o[s]?p/M.o[s]-1:0;
@@ -861,11 +1012,20 @@ function paintSym(s){
     if(prev&&p!==prev&&!reduced){row.classList.remove('flash-up','flash-down');void row.offsetWidth;row.classList.add(p>prev?'flash-up':'flash-down')}
     const ce=row.querySelector('[data-ch]');ce.textContent=pct(ch);cls(ce,ch)}
   document.querySelectorAll('.tape-item[data-t="'+s+'"]').forEach(t=>{t.querySelector('[data-px]').textContent=fmtS(s,p);const ce=t.querySelector('[data-ch]');ce.textContent=pct(ch);cls(ce,ch)});
-  if(s===M.sym){$('#aPx').textContent=fmtS(s,p);cls($('#aPx'),ch);$('#aCh').textContent=pct(ch);cls($('#aCh'),ch);$('#aHi').textContent=fmtS(s,M.hi[s]);$('#aLo').textContent=fmtS(s,M.lo[s]);$('#aVol').textContent=M.q[s]?(isFx(s)?big(M.q[s])+' '+SYMS[s].d.split('/')[1]:'$'+big(M.q[s])):'—';document.title=SYMS[s].d+' '+fmtS(s,p)+' · Sube/Baja'}
+  if(s===M.sym){$('#aPx').textContent=fmtS(s,p);cls($('#aPx'),ch);$('#aCh').textContent=pct(ch);cls($('#aCh'),ch);$('#aHi').textContent=fmtS(s,M.hi[s]);$('#aLo').textContent=fmtS(s,M.lo[s]);if(isStk(s))$('#aName').textContent=SYMS[s].n+(M.open[s]===false?' · bolsa cerrada':M.open[s]?' · bolsa abierta':'');
+    $('#aVol').textContent=M.q[s]?(isFx(s)?big(M.q[s])+' '+SYMS[s].d.split('/')[1]:'$'+big(M.q[s])):'—';document.title=SYMS[s].d+' '+fmtS(s,p)+' · Sube/Baja'}
 }
-function onPrice(s){M.lastT[s]=Date.now();paintSym(s);if(s===M.sym){if(isFx(s)&&M.L)lwTick(M.L,M.px[s]);predTick()}duelOnPrice(s)}
+function onPrice(s){M.lastT[s]=Date.now();paintSym(s);if(s===M.sym){if(!isCryptoLive(s)&&M.L)lwTick(M.L,M.px[s]);predTick()}duelOnPrice(s)}
+const isCryptoLive=s=>SYMS[s].src==='b'&&!M.sim;
+async function pollStocks(){
+  try{const r=await fetchT(FN+'?m=q&s='+STK.join(','),{},15000);if(!r.ok)return false;const d=await r.json();
+    d.forEach(q=>{if(q.error||!(q.p>0))return;const s=q.s,moved=M.px[s]!==q.p;M.px[s]=q.p;M.o[s]=q.pc;M.hi[s]=q.h;M.lo[s]=q.l;M.q[s]=(q.v||0)*q.p;M.open[s]=q.open;M.close[s]=q.close;
+      if(moved||!M.lastT[s])onPrice(s);else paintSym(s)});return true}catch(e){return false}
+}
+setInterval(()=>{if(!document.hidden)pollStocks()},10000);
 async function loadTickers(){
   let ok=false;
+  pollStocks();
   try{const r=await fetchT(API+'/ticker/24hr?symbols='+encodeURIComponent(JSON.stringify(CRYPTO)));if(!r.ok)throw 0;(await r.json()).forEach(t=>{M.px[t.symbol]=+t.lastPrice;M.o[t.symbol]=+t.openPrice;M.hi[t.symbol]=+t.highPrice;M.lo[t.symbol]=+t.lowPrice;M.q[t.symbol]=+t.quoteVolume;paintSym(t.symbol)});ok=true}catch(e){}
   try{const r=await fetchT(KAPI+'/Ticker?pair='+FX.join(','));const j=await r.json();Object.keys(j.result||{}).forEach(k=>{const s=k.replace(/^Z?([A-Z]{3})Z?([A-Z]{3})$/,'$1$2');const t=j.result[k];if(!SYMS[s])return;
     const bid=+t.b[0],ask=+t.a[0];let p=(bid+ask)/2;if(!(p>0)||(ask-bid)/p>.004)p=+t.c[0];M.px[s]=p;M.o[s]=+t.o;M.hi[s]=+t.h[1];M.lo[s]=+t.l[1];M.q[s]=(+t.v[1])*(+t.p[1]);paintSym(s)});ok=true}catch(e){}
@@ -891,7 +1051,7 @@ function openKraken(){
 async function loadChart(){
   if(!M.L){M.L=mkLW($('#lwc'));if(!M.L){$('#lwcNote').textContent='No se pudo cargar la librería de gráficos.';return}}
   $('#lwcNote').hidden=false;$('#lwcNote').textContent='Cargando '+SYMS[M.sym].d+'…';
-  $('#srcTxt').textContent='Fuente: '+(isFx(M.sym)?'Kraken':'Binance')+' (datos públicos)';
+  $('#srcTxt').textContent='Fuente: '+(isStk(M.sym)?'Yahoo Finance':isFx(M.sym)?'Kraken':'Binance')+' (datos públicos)';
   const sym=M.sym,tf=M.tf;let ks=null;
   try{ks=await history(sym,tf,400)}catch(e){ks=null}
   if(sym!==M.sym||tf!==M.tf)return;
@@ -903,7 +1063,7 @@ async function loadChart(){
 }
 function openKline(){
   if(M.wsK){M.wsK.onclose=null;try{M.wsK.close()}catch(e){}M.wsK=null}
-  if(M.sim||isFx(M.sym))return;
+  if(M.sim||SYMS[M.sym].src!=='b')return;
   const sym=M.sym,tf=M.tf;let ws;try{ws=new WebSocket(WSB+'/ws/'+sym.toLowerCase()+'@kline_'+tf)}catch(e){return}
   M.wsK=ws;
   ws.onmessage=ev=>{try{const k=JSON.parse(ev.data).k;if(sym!==M.sym||tf!==M.tf)return;const b={t:k.t,o:+k.o,h:+k.h,l:+k.l,c:+k.c,v:+k.q};M.L.last=b;M.L.cs.update(barOf(b));M.L.vs.update(volOf(b));M.px[sym]=b.c;onPrice(sym)}catch(e){}};
@@ -912,11 +1072,20 @@ function openKline(){
 }
 function selectSym(s){M.sym=s;wl.querySelectorAll('.wl-row').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s));
   $('#aSym').textContent=SYMS[s].d;$('#aName').textContent=SYMS[s].n;if(M.px[s])paintSym(s);if(!P.active)predQ();loadChart()}
+// cuenta regresiva para el cierre de la vela actual
+function fmtLeft(ms){const s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+':'+String(m).padStart(2,'0'):m)+':'+String(x).padStart(2,'0')}
+function candleTimer(){const el=$('#cdTxt');if(!M.L||!M.L.last){el.textContent='';return}
+  const tf=TFMS[M.tf],now=Date.now();let txt;
+  if(isStk(M.sym)&&M.open[M.sym]===false)txt='bolsa cerrada';
+  else{let end=M.L.last.t+tf;if(isStk(M.sym)&&M.tf==='1d'&&M.close[M.sym])end=M.close[M.sym];while(end<=now)end+=tf;txt=fmtLeft(end-now)}
+  el.innerHTML='<span>Cierre de vela </span>'+txt;
+  try{M.L.cs.applyOptions({title:txt==='bolsa cerrada'?'':txt})}catch(e){}}
+setInterval(()=>{if(current==='mercados')candleTimer()},500);
 $('#tfSeg').addEventListener('click',e=>{const b=e.target.closest('[data-tf]');if(!b)return;M.tf=b.dataset.tf;$('#tfSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));loadChart()});
 let simT=null;
 function startSim(){
   if(M.sim)return;M.sim=true;setLive(false,'Sin conexión · simulación');
-  const seedPx={BTCUSDT:82000,ETHUSDT:2500,SOLUSDT:150,BNBUSDT:600,XRPUSDT:2.4,DOGEUSDT:.2,ADAUSDT:.75,LINKUSDT:16,EURUSD:1.12,GBPUSD:1.33,AUDUSD:.69,USDCAD:1.43,USDCHF:.83,EURGBP:.85,EURCHF:.93};
+  const seedPx={BTCUSDT:82000,ETHUSDT:2500,SOLUSDT:150,BNBUSDT:600,XRPUSDT:2.4,DOGEUSDT:.2,ADAUSDT:.75,LINKUSDT:16,EURUSD:1.12,GBPUSD:1.33,AUDUSD:.69,USDCAD:1.43,USDCHF:.83,EURGBP:.85,EURCHF:.93,AAPL:336,TSLA:382,NVDA:229,MSFT:520,AMZN:230,GOOGL:250,META:760,SPY:670,QQQ:600};
   ALL.forEach(s=>{if(!M.px[s]){M.px[s]=seedPx[s];M.o[s]=seedPx[s]*(1+(Math.random()-.5)*.02);M.hi[s]=Math.max(M.px[s],M.o[s])*1.005;M.lo[s]=Math.min(M.px[s],M.o[s])*.995;M.q[s]=seedPx[s]*1e5}paintSym(s)});
   simT=setInterval(()=>{ALL.forEach(s=>{M.px[s]*=Math.exp(gauss(Math.random)*(isFx(s)?.0001:.0006));M.hi[s]=Math.max(M.hi[s],M.px[s]);M.lo[s]=Math.min(M.lo[s],M.px[s]);onPrice(s)});if(M.L&&!isFx(M.sym))lwTick(M.L,M.px[M.sym])},1000);
 }
@@ -952,6 +1121,7 @@ function predEnd(){
   else{const ok=mv*a.d>0;s.n++;if(ok){s.ok++;s.streak++;s.best=Math.max(s.best,s.streak)}else s.streak=0;
     s.hist.unshift({s:SYMS[a.sym].d,d:a.d,ok,mv});s.hist=s.hist.slice(0,20);save('sob-pred',s);
     $('#pMsg').innerHTML=(ok?'<span class="up">Acertaste.</span> ':'<span class="down">Fallaste.</span> ')+esc(SYMS[a.sym].d)+' '+(mv>0?'subió ':'bajó ')+pct(mv,3);
+    onEvent('pred',{ok,sym:a.sym,streak:s.streak});
     if(ME.name){RK.pred.plays++;if(ok)RK.pred.wins++;save('sob-rk-pred',RK.pred);submit('pred','all',0,RK.pred.wins,RK.pred.plays)}}
   $('#pUp').disabled=$('#pDown').disabled=false;document.querySelectorAll('#pDur button').forEach(b=>b.disabled=false);
   if(predLine){try{M.L.cs.removePriceLine(predLine)}catch(e){}predLine=null}
@@ -968,26 +1138,26 @@ predStats();predQ();
 const EPOCH=new Date(2026,9,9).getTime();
 function todayNum(){const d=new Date();return Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()-EPOCH)/DAY)+1}
 const R={W:130,SHOW:80,STEP:5,N:10};
-const POOLD=['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','XRPUSDT','DOGEUSDT','ADAUSDT','LINKUSDT','EURUSD','GBPUSD','AUDUSD','USDCAD','USDCHF','EURGBP'];
+const POOLD=['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','XRPUSDT','DOGEUSDT','ADAUSDT','LINKUSDT','EURUSD','GBPUSD','AUDUSD','USDCAD','USDCHF','EURGBP','AAPL','TSLA','NVDA','SPY','MSFT'];
 const IND=Object.assign({ma20:false,ma50:false,bb:false,rsi:false,vol:false},load('sob-ind')||{});
 document.querySelectorAll('#retoTools [data-ind]').forEach(b=>{b.setAttribute('aria-pressed',!!IND[b.dataset.ind]);b.onclick=()=>{IND[b.dataset.ind]=!IND[b.dataset.ind];b.setAttribute('aria-pressed',IND[b.dataset.ind]);save('sob-ind',IND);renderReto()}});
 let STAKE=1;
 $('#stakeSeg').addEventListener('click',e=>{const b=e.target.closest('[data-s]');if(!b)return;STAKE=+b.dataset.s;$('#stakeSeg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
 let RT=null,retoReq=0;
-async function setupReto(practice){
-  const req=++retoReq;const n=todayNum();const seed=practice?(Math.random()*4294967296)>>>0:hashStr('sob2-'+n);
+async function setupReto(practice,seedIn){
+  const req=++retoReq;const n=todayNum();const daily=hashStr('sob2-'+n);if(seedIn!=null&&seedIn===daily)practice=false;else if(seedIn!=null)practice=true;const seed=seedIn!=null?seedIn:practice?(Math.random()*4294967296)>>>0:daily;
   const r=mulberry32(seed);const sym=POOLD[Math.floor(r()*POOLD.length)];const pick=r();
   const picks=[...Array(R.N)].map(()=>({g:['up','flat','down'][Math.floor(r()*3)],s:1+Math.floor(r()*3)}));
   RT={n,practice,loading:true,res:[],mono:picks,done:false,busy:false,cs:[],shown:R.SHOW,vis:R.SHOW};renderReto();
   let cs=null;
   try{
-    if(isFx(sym)){const all=(await klinesK(sym,1440)).slice(0,-1);if(all.length>=R.W+5){const i0=Math.floor(pick*(all.length-R.W));cs=all.slice(i0,i0+R.W)}}
+    if(isFx(sym)||isStk(sym)){const all=(isStk(sym)?await klinesS(sym,'1dl'):await klinesK(sym,1440)).slice(0,-1);if(all.length>=R.W+5){const i0=Math.floor(pick*(all.length-R.W));cs=all.slice(i0,i0+R.W)}}
     else{const minT=Date.UTC(2018,0,1),maxT=EPOCH+(n-1)*DAY-200*DAY;const st=Math.floor((minT+pick*(maxT-minT))/DAY)*DAY;cs=await klines(sym,'1d',{startTime:st,limit:R.W});if(cs.length<R.W)cs=null}
   }catch(e){cs=null}
   if(req!==retoReq)return;
   let info,real=true;
   if(!cs){real=false;const keys=['covid20','crash08','dotcom','gme21'];const sc=SC[keys[Math.floor(r()*keys.length)]];const ser=buildSeries(sc,seed^0x9e3779b9);const s0=Math.floor(r()*(ser.length-R.W));cs=ser.slice(s0,s0+R.W);info={name:sc.name,asset:sc.asset+' (reconstruido)'}}
-  else{info={name:SYMS[sym].n+' ('+SYMS[sym].d+')',asset:(isFx(sym)?'Forex · Kraken':'Cripto · Binance')+' · velas diarias reales',sym};
+  else{info={name:SYMS[sym].n+' ('+SYMS[sym].d+')',asset:(isStk(sym)?'Acciones · Yahoo Finance':isFx(sym)?'Forex · Kraken':'Cripto · Binance')+' · velas diarias reales',sym};
     // recorta mechas absurdas (operaciones sueltas lejos del precio) para que no aplasten el gráfico
     const rg=cs.map(c=>(c.h-c.l)/c.c).sort((a,b)=>a-b),lim=Math.max(rg[Math.floor(rg.length/2)]*4,1e-4);
     cs=cs.map(c=>({...c,h:Math.min(c.h,Math.max(c.o,c.c)*(1+lim)),l:Math.max(c.l,Math.min(c.o,c.c)*(1-lim))}))}
@@ -995,7 +1165,7 @@ async function setupReto(practice){
   const lr=[];for(let i=R.STEP;i<R.SHOW;i++)lr.push(Math.log(cs[i].c/cs[i-R.STEP].c));
   const mu=lr.reduce((a,b)=>a+b,0)/lr.length,sd=Math.sqrt(lr.reduce((a,b)=>a+(b-mu)**2,0)/lr.length);
   const thr=Math.max(.0005,Math.round(.43*sd*10000)/10000);
-  RT={n,practice,real,info,cs,thr,shown:R.SHOW,vis:R.SHOW,res:[],mono:picks,done:false,busy:false,score:0};
+  RT={n,seed,practice,real,info,cs,thr,shown:R.SHOW,vis:R.SHOW,res:[],mono:picks,done:false,busy:false,score:0};
   if(!practice){const sv=load('sob-d2-'+n);if(sv&&Array.isArray(sv.p))sv.p.forEach(q=>guess(q.g,q.s,true))}
   renderReto();
 }
@@ -1032,6 +1202,7 @@ function renderReto(){
 }
 let retoSent=false;
 function retoResult(){
+  if(!RT.xpDone){RT.xpDone=1;const k='sob-xp-d'+RT.n;if(RT.practice||!load(k)){if(!RT.practice)save(k,1);onEvent('reto',{score:RT.score})}}
   const you=RT.score;const hits=RT.res.filter(q=>q.ok).length;
   const mono=RT.res.reduce((a,q,i)=>a+(RT.mono[i].g===q.act?RT.mono[i].s:-RT.mono[i].s),0);
   const r=mulberry32(99);let below=0;const N=20000;for(let k=0;k<N;k++){let s=0;RT.res.forEach(q=>{const g=['up','flat','down'][Math.floor(r()*3)],st=1+Math.floor(r()*3);s+=g===q.act?st:-st});if(s<you)below++}
@@ -1067,7 +1238,7 @@ ALL.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent
 const DS={lev:10,goal:.05};
 function segPick(id,key){$(id).addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;DS[key]=+b.dataset.v;$(id).querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));duelRules()})}
 segPick('#dLev','lev');segPick('#dGoal','goal');$('#dMkt').addEventListener('change',duelRules);
-const feeOf=s=>isFx(s)?.0001:.0004;
+const feeOf=s=>isFx(s)?.0001:isStk(s)?.0002:.0004;
 // abrir y cerrar no puede costar más de la mitad de la meta: si no, la comisión decide el duelo
 const duelBlocked=(s,lev,g)=>2*feeOf(s)*lev>g/2;
 function duelRules(){const s=$('#dMkt').value,g=DS.goal,f=feeOf(s),mv=g/DS.lev;
@@ -1109,7 +1280,7 @@ function duelSecond(){
   if(now>=MN.mono.next){const o=[-1,0,1].filter(v=>v!==MN.mono.pos);const np=o[Math.random()<.5?0:1];dSet(MN.mono,np,'mono');MN.mono.next=now+20000+Math.random()*100000;
     const b=$('#monoBubble');b.textContent='Mono: '+(np>0?'compra':np<0?'vende en corto':'cierra');b.classList.add('show');setTimeout(()=>b.classList.remove('show'),2500)}
   const stale=now-(M.lastT[MN.sym]||MN.start);
-  $('#duelMsg').textContent=stale>90000?'El precio no se mueve hace '+Math.round(stale/60000)+' min. '+(isFx(MN.sym)?'El forex está cerrado los fines de semana.':'Revisa tu conexión.'):'Las líneas punteadas del gráfico muestran tu entrada, tu meta y tu eliminación.';
+  $('#duelMsg').textContent=stale>90000?'El precio no se mueve hace '+Math.round(stale/60000)+' min. '+(isFx(MN.sym)?'El forex está cerrado los fines de semana.':isStk(MN.sym)?'La bolsa de EE.UU. está cerrada (abre lunes a viernes, 9:30 a 16:00 de Nueva York).':'Revisa tu conexión.'):'Las líneas punteadas del gráfico muestran tu entrada, tu meta y tu eliminación.';
   renderDuel();
 }
 function duelOnPrice(s){if(!MN.run||s!==MN.sym)return;lwTick(_mn.L,M.px[s]);duelCheck();renderDuel()}
@@ -1124,7 +1295,7 @@ function renderDuel(){if(!MN.sym)return;const p=M.px[MN.sym];
   $('#mBuy').classList.toggle('on',MN.you.pos>0);$('#mSell').classList.toggle('on',MN.you.pos<0);$('#mFlat').classList.toggle('on',MN.run&&MN.you.pos===0);
 }
 function duelEnd(winner,why){
-  MN.run=false;MN.end=Date.now();clearInterval(MN.timer);renderDuel();
+  MN.run=false;MN.end=Date.now();MN.winner=winner;clearInterval(MN.timer);renderDuel();onEvent('duel',{win:winner==='you',lev:MN.lev});
   const win=winner==='you',p=M.px[MN.sym],y=dVal(MN.you,p),m=dVal(MN.mono,p);const mins=Math.max(1,Math.round((MN.end-MN.start)/60000));
   $('#mrWhen').textContent=SYMS[MN.sym].d+' en vivo · x'+MN.lev+' · meta ±'+Math.round(MN.goal*100)+'% · '+mins+' min';
   $('#mrTitle').textContent=(win?'Ganaste: ':'Perdiste: ')+why.toLowerCase();
@@ -1187,7 +1358,7 @@ function crisisEnd(){
   const sc=CR.sc,eq=crEq(),hold=10000*CR.cs[CR.cs.length-1].c/CR.cs[0].c;
   let peak=-Infinity,dd=0;CR.cs.forEach(c=>{peak=Math.max(peak,c.c);dd=Math.min(dd,c.c/peak-1)});
   $('#crDates').textContent=fDate(CR.cs[0].t,true)+' → '+fDate(CR.cs[CR.cs.length-1].t,true)+' · '+sc.asset+(CR.real?' · datos reales':' · reconstruido');
-  const sold=CR.acts.some(a=>a.t==='v');
+  const sold=CR.acts.some(a=>a.t==='v');onEvent('crisis',{sold,beat:eq>hold*1.0001});
   const title=!sold?'Mantuviste hasta el final':eq>hold*1.02?'Le ganaste a no hacer nada':eq<hold*.98?'El miedo te costó dinero':'Casi igual que no hacer nada';
   $('#crTitle').textContent=title+' · '+sc.name;
   $('#crYou').textContent=usd(eq);cls($('#crYou'),eq-10000);$('#crHold').textContent=usd(hold);cls($('#crHold'),hold-10000);$('#crDD').textContent=pct(dd,1);cls($('#crDD'),-1);
@@ -1270,7 +1441,7 @@ function renderLiq(){
   drawChart($('#liqCv'),LS.cs,{slots:LQ.N,lastTag:true,dates:true,timeLabels:true,lines:[{y:LS.entry,color:C('--muted'),dash:[4,4],label:'Entrada'},{y:LS.liqP,color:C('--down'),label:'Liquidación',fit:Math.abs(LS.liqP/LS.entry-1)<.08}]});
 }
 function liqEnd(){
-  clearInterval(LS.timer);LS.run=false;renderLiq();
+  clearInterval(LS.timer);LS.run=false;renderLiq();onEvent('liq',{dead:LS.dead,lev:LS.L});
   $('#liqGo').disabled=false;$('#liqGo').textContent='Probar otro día';$('#liqLev').disabled=$('#liqCap').disabled=$('#liqAsset').disabled=false;
   const v=pnl(),box=$('#liqOverlayIn');box.innerHTML='';
   const h=document.createElement('div'),p=document.createElement('p'),w=document.createElement('p'),b=document.createElement('button');
@@ -1283,14 +1454,223 @@ function liqEnd(){
 }
 $('#liqGo').onclick=liqStart;
 
+/* =========================================================
+   NIVELES, INSIGNIAS Y AVISOS
+   ========================================================= */
+const C=load('sob-c')||{};
+if(C.pred==null&&P.st.n){C.pred=P.st.n;C.predOk=P.st.ok;C.bestStreak=P.st.best;C.xp=(C.xp||0)+P.st.n+2*P.st.ok}
+C.badges=C.badges||[];C.xp=C.xp||0;
+const LVLS=[[0,'Novato'],[50,'Aprendiz'],[150,'Trader'],[400,'Analista'],[900,'Experto'],[2000,'Ballena']];
+function lvlOf(xp){let i=0;LVLS.forEach((l,k)=>{if(xp>=l[0])i=k});const nx=LVLS[i+1];return{i,name:LVLS[i][1],from:LVLS[i][0],to:nx?nx[0]:null,next:nx?nx[1]:null}}
+const BADGES=[
+  ['primera','Primer paso','Haz tu primera predicción en vivo',c=>c.pred>=1],
+  ['racha5','En racha','Acierta 5 predicciones seguidas',c=>c.bestStreak>=5],
+  ['racha10','Imparable','Acierta 10 predicciones seguidas',c=>c.bestStreak>=10],
+  ['cien','Centenario','Haz 100 predicciones en vivo',c=>c.pred>=100],
+  ['forex','Divisas','Predice un par de forex',c=>!!c.fx],
+  ['wall','Wall Street','Predice una acción',c=>!!c.stk],
+  ['reto1','Diario','Termina un reto',c=>c.reto>=1],
+  ['retoPos','En positivo','Termina un reto con puntos a favor',c=>c.retoBest>0],
+  ['reto15','Francotirador','Saca 15 puntos o más en un reto',c=>c.retoBest>=15],
+  ['mono1','Más listo que un mono','Gana un duelo',c=>c.duelWin>=1],
+  ['mono5','Domador','Gana 5 duelos',c=>c.duelWin>=5],
+  ['sangre','Sangre fría','Gana un duelo con x50 o más',c=>c.duelLevMax>=50],
+  ['hold','Manos de diamante','Termina una crisis sin vender',c=>!!c.crisisHold],
+  ['beat','Mejor que el mercado','Termina una crisis con más dinero que sin tocar nada',c=>!!c.crisisBeat],
+  ['filo','Al filo','Sobrevive 24 horas con x50 o más',c=>!!c.liqBrave],
+  ['ojo','Ojo técnico','Acierta 4 de 5 o más en Señal o ruido',c=>c.senalBest>=4],
+  ['camp','Campeón semanal','Gana el torneo de una semana',c=>!!c.champ]
+];
+let toastQ=[],toastOn=false;
+function toast(html){toastQ.push(html);if(!toastOn)nextToast()}
+function nextToast(){const h=toastQ.shift();if(!h){toastOn=false;$('#toast').hidden=true;return}toastOn=true;const t=$('#toast');t.innerHTML=h;t.hidden=false;setTimeout(nextToast,3600)}
+function onEvent(k,d){
+  const before=lvlOf(C.xp).i,inc=(f,n=1)=>{C[f]=(C[f]||0)+n};
+  if(k==='pred'){inc('pred');if(d.ok){inc('predOk');C.xp+=3}else C.xp+=1;C.bestStreak=Math.max(C.bestStreak||0,d.streak||0);if(isFx(d.sym))C.fx=1;if(isStk(d.sym))C.stk=1}
+  if(k==='reto'){inc('reto');C.xp+=5+Math.max(0,d.score);C.retoBest=Math.max(C.retoBest==null?-99:C.retoBest,d.score)}
+  if(k==='duel'){inc('duel');C.xp+=3;if(d.win){inc('duelWin');C.xp+=10;C.duelLevMax=Math.max(C.duelLevMax||0,d.lev)}}
+  if(k==='crisis'){inc('crisis');C.xp+=4;if(!d.sold)C.crisisHold=1;if(d.beat)C.crisisBeat=1}
+  if(k==='liq'){inc('liq');C.xp+=2;if(!d.dead&&d.lev>=50)C.liqBrave=1}
+  if(k==='senal'){inc('senal');C.xp+=2+2*d.hits;C.senalBest=Math.max(C.senalBest||0,d.hits)}
+  if(k==='champ'){if(C.champ)return;C.champ=1;C.xp+=50}
+  BADGES.forEach(([id,name,,test])=>{if(!C.badges.includes(id)&&test(C)){C.badges.push(id);C.xp+=10;toast('Insignia desbloqueada: <b>'+esc(name)+'</b>')}});
+  const after=lvlOf(C.xp);if(after.i>before)toast('Subiste de nivel: <b>'+after.name+'</b>');
+  save('sob-c',C);paintLevel();scheduleSync();
+}
+function paintLevel(){const L=lvlOf(C.xp);$('#lvName').textContent=L.name;$('#lvBar').style.width=(L.to?Math.min(100,(C.xp-L.from)/(L.to-L.from)*100):100)+'%';if(current==='perfil')renderPerfil()}
+function renderPerfil(){
+  const L=lvlOf(C.xp);$('#pfName').textContent=ME.name||'sin nombre';$('#pfLv').textContent=L.name;$('#pfXp').textContent=C.xp.toLocaleString('es-CO')+' XP';
+  $('#pfXpBar').style.width=(L.to?Math.min(100,(C.xp-L.from)/(L.to-L.from)*100):100)+'%';
+  $('#pfNext').textContent=L.to?'Te faltan '+(L.to-C.xp).toLocaleString('es-CO')+' XP para '+L.next+'.':'Llegaste al nivel máximo.';
+  $('#pfSteps').innerHTML=LVLS.map((l,k)=>'<span class="'+(k<=L.i?'on':'')+'">'+l[1]+' · '+l[0]+'</span>').join('');
+  const st=[['Predicciones',(C.predOk||0)+'/'+(C.pred||0)],['Mejor racha',C.bestStreak||0],['Retos jugados',C.reto||0],['Mejor reto',C.retoBest==null?'—':(C.retoBest>0?'+':'')+C.retoBest],['Duelos ganados',(C.duelWin||0)+'/'+(C.duel||0)],['Señal o ruido',C.senalBest==null?'—':C.senalBest+'/5']];
+  $('#pfStats').innerHTML=st.map(([a,b])=>'<div><small>'+a+'</small><b>'+b+'</b></div>').join('');
+  $('#pfBadgeN').textContent='· '+C.badges.length+' de '+BADGES.length;
+  $('#pfBadges').innerHTML=BADGES.map(([id,n,dsc])=>'<div class="bdg'+(C.badges.includes(id)?' on':'')+'"><b>'+esc(n)+'</b><small>'+esc(dsc)+'</small></div>').join('');
+  $('#pfCode').textContent=SYNC.code;$('#pfSaveMsg').textContent=SYNC.on?'Se guarda solo cada vez que juegas.':'';
+}
+$('#pfEdit').onclick=()=>askName(()=>{renderPerfil();scheduleSync()});
+
+/* ---------- progreso en la nube con código ---------- */
+function genCode(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',a=new Uint32Array(16);crypto.getRandomValues(a);let s='SB';for(let i=0;i<16;i++){if(i%4===0)s+='-';s+=A[a[i]%A.length]}return s}
+const SYNC={code:load('sob-code')||genCode(),on:!!load('sob-sync'),t:null};save('sob-code',SYNC.code);
+function cloudSave(){return sb('rpc/sob_profile_save',{method:'POST',body:JSON.stringify({p_code:SYNC.code,p_player:ME.id,p_name:ME.name||'',p_data:{c:C,pred:P.st,rkp:RK.pred,rkm:RK.mono,streak:load('sob-streak')||null}})})}
+function scheduleSync(){if(!SYNC.on)return;clearTimeout(SYNC.t);SYNC.t=setTimeout(()=>cloudSave().catch(()=>{}),4000)}
+$('#pfCopy').onclick=()=>copyText(SYNC.code,$('#pfCopy'));
+$('#pfSave').onclick=()=>{$('#pfSaveMsg').textContent='Guardando…';cloudSave().then(()=>{SYNC.on=true;save('sob-sync',1);$('#pfSaveMsg').textContent='Guardado. Desde ahora se guarda solo cada vez que juegas.'},e=>{$('#pfSaveMsg').textContent='No se pudo guardar: '+e.message})};
+let loadArm=null;
+$('#pfLoad').onclick=async()=>{
+  const code=$('#pfIn').value.trim().toUpperCase(),msg=$('#pfLoadMsg');
+  if(!/^SB-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){msg.textContent='El código tiene la forma SB-XXXX-XXXX-XXXX-XXXX.';return}
+  if(code===SYNC.code){msg.textContent='Ese es el código de este dispositivo.';return}
+  if(loadArm!==code){loadArm=code;msg.textContent='Esto reemplaza el progreso de este dispositivo. Pulsa otra vez para confirmar.';return}
+  msg.textContent='Buscando…';
+  try{const d=await sb('rpc/sob_profile_load',{method:'POST',body:JSON.stringify({p_code:code})});
+    if(!d){msg.textContent='No encontramos ese código. Revisa que esté bien escrito.';loadArm=null;return}
+    const x=d.data||{};save('sob-player',d.player);if(d.name)save('sob-name',d.name);save('sob-code',code);save('sob-sync',1);
+    if(x.c)save('sob-c',x.c);if(x.pred)save('sob-pred',x.pred);if(x.rkp)save('sob-rk-pred',x.rkp);if(x.rkm)save('sob-rk-mono',x.rkm);if(x.streak)save('sob-streak',x.streak);
+    msg.textContent='Listo. Recargando…';setTimeout(()=>location.reload(),600)}
+  catch(e){msg.textContent='No se pudo cargar: '+e.message;loadArm=null}
+};
+
+/* ---------- imagen para compartir ---------- */
+function rr(x,X,Y,w,h,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()}
+function wrap(x,text,X,Y,maxW,lh){const words=String(text).split(' ');let line='';for(const w of words){const t=line?line+' '+w:w;if(x.measureText(t).width>maxW&&line){x.fillText(line,X,Y);Y+=lh;line=w}else line=t}if(line)x.fillText(line,X,Y);return Y+lh}
+function makeCard(o){
+  const W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d'),K=css();
+  x.fillStyle=K('--bg');x.fillRect(0,0,W,H);
+  const r=mulberry32(hashStr(o.title||'sb'));let p=0;const pts=[];for(let i=0;i<=40;i++){p+=gauss(r)*26;pts.push(p)}
+  const g=x.createLinearGradient(0,H*.55,0,H);g.addColorStop(0,'rgba(76,141,255,.16)');g.addColorStop(1,'rgba(76,141,255,0)');
+  x.beginPath();pts.forEach((v,i)=>{const X=i*W/40,Y=H*.78+v;i?x.lineTo(X,Y):x.moveTo(X,Y)});x.lineTo(W,H);x.lineTo(0,H);x.closePath();x.fillStyle=g;x.fill();
+  x.beginPath();pts.forEach((v,i)=>{const X=i*W/40,Y=H*.78+v;i?x.lineTo(X,Y):x.moveTo(X,Y)});x.strokeStyle='rgba(76,141,255,.5)';x.lineWidth=4;x.stroke();
+  x.fillStyle=K('--accent');rr(x,80,80,64,64,14);x.fill();x.strokeStyle='#fff';x.lineWidth=7;x.lineCap='round';x.lineJoin='round';x.beginPath();x.moveTo(98,120);x.lineTo(108,106);x.lineTo(118,116);x.lineTo(130,98);x.stroke();
+  x.fillStyle=K('--fg');x.font='700 44px "IBM Plex Sans",sans-serif';x.fillText('SUBE / BAJA',168,128);
+  x.fillStyle=K('--muted');x.font='600 30px "IBM Plex Sans",sans-serif';x.fillText((o.tag||'').toUpperCase(),80,250);
+  x.fillStyle=K('--fg');x.font='700 62px "IBM Plex Sans",sans-serif';let y=wrap(x,o.title||'',80,330,W-160,74);
+  if(o.big){x.fillStyle=o.bigColor||K('--fg');x.font='600 140px "IBM Plex Mono",monospace';x.fillText(o.big,76,y+110);y+=170}
+  if(o.squares){const n=o.squares.length,s=Math.min(78,(W-160-(n-1)*14)/n);o.squares.forEach((ok,i)=>{x.fillStyle=ok?K('--up'):K('--down');rr(x,80+i*(s+14),y,s,s,12);x.fill()});y+=s+50}
+  x.fillStyle=K('--muted');x.font='500 36px "IBM Plex Sans",sans-serif';(o.sub||[]).forEach(l=>{y=wrap(x,l,80,y,W-160,48)});
+  x.fillStyle=K('--fg');x.font='600 38px "IBM Plex Sans",sans-serif';x.fillText(o.cta||'¿Lo haces mejor?',80,H-130);
+  x.fillStyle=K('--accent');x.font='500 32px "IBM Plex Mono",monospace';x.fillText(SITE_URL.replace(/^https?:\/\//,'').replace(/\/$/,''),80,H-80);
+  return cv;
+}
+let cardCv=null,cardText='';
+function showCard(o,text){cardCv=makeCard(o);cardText=text||'';const url=cardCv.toDataURL('image/png');$('#cardImg').src=url;$('#cardDl').href=url;$('#cardMsg').textContent='En el celular, "Compartir" la manda directo a WhatsApp, Instagram o TikTok.';$('#cardModal').hidden=false}
+$('#cardClose').onclick=()=>{$('#cardModal').hidden=true};
+$('#cardShare').onclick=()=>{if(!cardCv)return;cardCv.toBlob(b=>{const file=new File([b],'sube-baja.png',{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]}))navigator.share({files:[file],text:cardText+'\n'+SITE_URL}).catch(()=>{});
+  else $('#cardMsg').textContent='Este navegador no comparte imágenes directo. Usa "Descargar" y súbela donde quieras.'},'image/png')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#cardModal').hidden)$('#cardModal').hidden=true});
+
+/* ---------- retar a un amigo ---------- */
+function shareLink(url,text,btn){if(navigator.share){navigator.share({url,text}).catch(()=>{})}else copyText(text+'\n'+url,btn)}
+$('#rvChallenge').onclick=()=>{if(!RT)return;const u=SITE_URL+'?p='+RT.seed+'&de='+encodeURIComponent(ME.name||'Un amigo')+'&pt='+RT.score;
+  shareLink(u,'Te reto en Sube/Baja: saqué '+(RT.score>0?'+':'')+RT.score+' puntos en este gráfico. ¿Me ganas?',$('#rvChallenge'))};
+$('#rvCard').onclick=()=>{if(!RT)return;const s=RT.score;showCard({tag:RT.practice?'Reto · práctica':'Reto diario #'+RT.n,title:'Era '+RT.info.name,big:(s>0?'+':'')+s+' pts',bigColor:s>0?css()('--up'):s<0?css()('--down'):css()('--fg'),squares:RT.res.map(q=>q.ok),sub:[RT.res.filter(q=>q.ok).length+' de 10 aciertos · nivel '+lvlOf(C.xp).name]},'Saqué '+(s>0?'+':'')+s+' puntos en el reto de Sube/Baja')};
+$('#mChallenge').onclick=()=>{if(!MN.sym)return;const win=MN.winner==='you',mins=Math.max(1,Math.round((MN.end-MN.start)/60000));
+  const u=SITE_URL+'?duelo='+MN.sym+'&lev='+MN.lev+'&meta='+MN.goal+'&de='+encodeURIComponent(ME.name||'Un amigo')+'&r='+(win?1:0)+'&min='+mins;
+  shareLink(u,'Te reto a un duelo contra el mono en Sube/Baja: '+SYMS[MN.sym].d+' x'+MN.lev+'. '+(win?'Yo le gané':'A mí me ganó')+' en '+mins+' min.',$('#mChallenge'))};
+$('#mCard').onclick=()=>{if(!MN.sym)return;const win=MN.winner==='you',p=M.px[MN.sym],y=dVal(MN.you,p);showCard({tag:'Duelo vs. Mono · en vivo',title:(win?'Le gané al mono':'El mono me ganó')+' en '+SYMS[MN.sym].d+' x'+MN.lev,big:usd(y),bigColor:y>=1000?css()('--up'):css()('--down'),sub:['Meta ±'+Math.round(MN.goal*100)+'% · '+Math.max(1,Math.round((MN.end-MN.start)/60000))+' min · '+MN.you.n+' operaciones']},win?'Le gané al mono en Sube/Baja':'El mono me ganó en Sube/Baja')};
+$('#cCard').onclick=()=>{if(!CR)return;const eq=crEq(),hold=10000*CR.cs[CR.cs.length-1].c/CR.cs[0].c;showCard({tag:'¿Sobrevivirías la crisis?',title:CR.sc.name,big:usd(eq),bigColor:eq>=10000?css()('--up'):css()('--down'),sub:['Empecé con $10.000. Sin tocar nada habría terminado con '+usd(hold)+'.']},'Sobreviví '+CR.sc.name+' en Sube/Baja con '+usd(eq))};
+$('#pCard').onclick=()=>{const s=P.st;showCard({tag:'Predicción en vivo',title:'Predigo cripto, forex y acciones en tiempo real',big:(s.n?Math.round(s.ok/s.n*100):0)+'%',bigColor:css()('--accent'),squares:s.hist.slice(0,10).reverse().map(h=>h.ok),sub:[s.ok+' de '+s.n+' aciertos · mejor racha '+s.best+' · nivel '+lvlOf(C.xp).name]},'Mi récord en Sube/Baja')};
+
+/* =========================================================
+   SEÑAL O RUIDO
+   ========================================================= */
+const SIGS=[
+  {id:'rsi30',n:'RSI en sobreventa',d:'El RSI 14 bajó de 30. Se supone que el precio quedó "barato" y debería rebotar.',exp:1,need:'rsi',f:(i,X)=>X.rsi[i]!=null&&X.rsi[i-1]!=null&&X.rsi[i]<30&&X.rsi[i-1]>=30},
+  {id:'rsi70',n:'RSI en sobrecompra',d:'El RSI 14 pasó de 70. Se supone que el precio quedó "caro" y debería corregir.',exp:-1,need:'rsi',f:(i,X)=>X.rsi[i]!=null&&X.rsi[i-1]!=null&&X.rsi[i]>70&&X.rsi[i-1]<=70},
+  {id:'gold',n:'Cruce dorado',d:'La media de 50 velas cruzó por encima de la de 200. Es una de las señales alcistas más famosas.',exp:1,need:'ma',f:(i,X)=>X.ma200[i-1]!=null&&X.ma50[i]>X.ma200[i]&&X.ma50[i-1]<=X.ma200[i-1]},
+  {id:'death',n:'Cruce de la muerte',d:'La media de 50 velas cruzó por debajo de la de 200. Se considera una señal bajista fuerte.',exp:-1,need:'ma',f:(i,X)=>X.ma200[i-1]!=null&&X.ma50[i]<X.ma200[i]&&X.ma50[i-1]>=X.ma200[i-1]},
+  {id:'bblo',n:'Cierre bajo la banda de Bollinger',d:'El precio cerró por debajo de la banda inferior. Muchos lo leen como exceso de venta y esperan un rebote.',exp:1,need:'bb',f:(i,X)=>X.bb.lo[i-1]!=null&&X.c[i]<X.bb.lo[i]&&X.c[i-1]>=X.bb.lo[i-1]},
+  {id:'bbhi',n:'Cierre sobre la banda de Bollinger',d:'El precio cerró por encima de la banda superior. Unos lo ven como fuerza; los libros clásicos, como exceso que se corrige.',exp:-1,need:'bb',f:(i,X)=>X.bb.up[i-1]!=null&&X.c[i]>X.bb.up[i]&&X.c[i-1]<=X.bb.up[i-1]},
+  {id:'brk',n:'Ruptura del máximo de 20 velas',d:'El precio cerró por encima del máximo de las últimas 20 velas. Los seguidores de tendencia compran aquí.',exp:1,need:'brk',f:(i,X)=>X.hi20[i]!=null&&X.hi20[i-1]!=null&&X.c[i]>X.hi20[i]&&X.c[i-1]<=X.hi20[i-1]}
+];
+const SG={req:0,ks:null};
+const SG_N=5,SG_H=10,SG_V=100;
+function sgButtons(on){$('#sgYes').disabled=$('#sgNo').disabled=!on}
+async function sgStart(tries=0){
+  const req=++SG.req;$('#sgResult').hidden=true;$('#sgNextRow').hidden=true;$('#sgFb').textContent='';$('#sgSig').innerHTML='';$('#sgBadge').innerHTML='';
+  $('#sgStatus').textContent='Buscando señales en un gráfico real…';sgButtons(false);$('#sgBtns').hidden=false;
+  drawChart($('#sgCv'),[],{slots:SG_V+SG_H,hideAxis:true});
+  const syms=['BTCUSDT','ETHUSDT','SOLUSDT','BNBUSDT','XRPUSDT','DOGEUSDT','ADAUSDT','LINKUSDT','AAPL','TSLA','NVDA','SPY','MSFT'];
+  const sym=syms[Math.floor(Math.random()*syms.length)];let iv='1d',ks=null;
+  try{if(isStk(sym))ks=(await klinesS(sym,'1dl')).slice(0,-1);
+    else{iv=Math.random()<.5?'1d':'4h';const st=iv==='1d'?Date.UTC(2018+Math.floor(Math.random()*5),Math.floor(Math.random()*12),1):Date.now()-(170+Math.random()*900)*DAY;ks=await klines(sym,iv,{startTime:st,limit:1000})}}catch(e){ks=null}
+  if(req!==SG.req)return;
+  if(!ks||ks.length<320){if(tries<2)return sgStart(tries+1);$('#sgStatus').textContent='No se pudieron cargar datos reales. Revisa tu conexión.';return}
+  const c=ks.map(k=>k.c),h=ks.map(k=>k.h),hi20=new Array(ks.length).fill(null);
+  for(let i=20;i<ks.length;i++){let m=-Infinity;for(let j=i-20;j<i;j++)m=Math.max(m,h[j]);hi20[i]=m}
+  const X={c,rsi:rsi(c),ma50:sma(c,50),ma200:sma(c,200),bb:boll(c),hi20};
+  const occ=[],stats={};
+  SIGS.forEach(s=>{stats[s.id]={n:0,ok:0};for(let i=210;i<ks.length-SG_H-1;i++){if(s.f(i,X)){const mv=c[i+SG_H]/c[i]-1;stats[s.id].n++;if(mv*s.exp>0)stats[s.id].ok++;occ.push({sig:s,i,mv})}}});
+  const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const rounds=[],used=new Set(),far=i=>rounds.every(r=>Math.abs(r.i-i)>15);
+  shuffle([...SIGS]).forEach(s=>{const o=shuffle(occ.filter(x=>x.sig===s))[0];if(o&&rounds.length<SG_N){rounds.push(o);used.add(o)}});
+  shuffle(occ).forEach(o=>{if(rounds.length<SG_N&&!used.has(o)&&far(o.i)){rounds.push(o);used.add(o)}});
+  if(rounds.length<3){if(tries<2)return sgStart(tries+1);$('#sgStatus').textContent='Este gráfico casi no tuvo señales. Pulsa "Jugar otra vez".';$('#sgResult').hidden=false;return}
+  Object.assign(SG,{sym,iv,ks,X,stats,occ,rounds:shuffle(rounds),k:0,hits:0,res:[],answered:false});
+  sgRender();
+}
+function sgRender(){
+  if(!SG.rounds)return;const rd=SG.rounds[SG.k],s=rd.sig,K=css(),a=rd.i-(SG_V-1),b=rd.i+1+(SG.answered?SG_H:0);
+  $('#sgStatus').textContent='Ronda '+(SG.k+1)+' de '+SG.rounds.length+' · Mercado y fecha secretos';
+  $('#sgBadge').innerHTML='<span class="badge real">Datos reales</span>';
+  $('#sgSig').innerHTML='<b>'+esc(s.n)+'</b><span class="exp '+(s.exp>0?'u':'d')+'">Los libros dicen: '+(s.exp>0?'SUBE':'BAJA')+'</span><span class="muted small">'+esc(s.d)+'</span>';
+  $('#sgYesS').textContent=s.exp>0?'subió en las 10 velas':'bajó en las 10 velas';
+  const sl=arr=>arr.slice(a,b),pre={};
+  if(s.need==='rsi')pre.rsi=sl(SG.X.rsi);
+  if(s.need==='ma')pre.lines=[{data:sl(SG.X.ma50),color:K('--c-ma20')},{data:sl(SG.X.ma200),color:K('--c-ma50')}];
+  if(s.need==='bb')pre.bb={m:sl(SG.X.bb.m),up:sl(SG.X.bb.up),lo:sl(SG.X.bb.lo)};
+  if(s.need==='brk')pre.lines=[{data:sl(SG.X.hi20),color:K('--c-bb'),dash:[5,4],w:1.4}];
+  drawChart($('#sgCv'),SG.ks.slice(a,b),{slots:SG_V+SG_H,hideAxis:!SG.answered,dates:SG.answered,futureFrom:SG.answered?null:SG_V,pre,markers:[{i:SG_V-1,text:'!',color:K('--gold')}],lastTag:SG.answered});
+  const dots=$('#sgDots');dots.innerHTML='';SG.rounds.forEach((r,i)=>{const sp=document.createElement('span');const q=SG.res[i];if(q){sp.className=q?'ok':'no';sp.textContent=q.ok?'✓':'✗';sp.className=q.ok?'ok':'no'}else{sp.textContent=i+1;if(i===SG.k)sp.className='cur'}dots.appendChild(sp)});
+  sgButtons(!SG.answered);
+}
+function sgAnswer(yes){
+  if(!SG.rounds||SG.answered)return;const rd=SG.rounds[SG.k],s=rd.sig,ful=rd.mv*s.exp>0,ok=yes===ful,st=SG.stats[s.id];
+  SG.answered=true;SG.res.push({ok});if(ok)SG.hits++;
+  const ivTxt=SG.iv==='1d'?'velas de 1 día':'velas de 4 horas';
+  $('#sgFb').innerHTML=(ok?'<span class="up">Acierto.</span> ':'<span class="down">Fallo.</span> ')+'En las 10 velas siguientes el precio '+(rd.mv>0?'subió ':'bajó ')+'<span class="num">'+pct(rd.mv)+'</span>: la señal <b>'+(ful?'se cumplió':'fue ruido')+'</b>. En este gráfico, "'+esc(s.n)+'" se cumplió '+st.ok+' de '+st.n+' veces ('+Math.round(st.ok/st.n*100)+'%).<br><span class="muted small">Era '+esc(SYMS[SG.sym].d)+' ('+esc(SYMS[SG.sym].n)+'), '+fDate(SG.ks[rd.i].t,true)+', '+ivTxt+'.</span>';
+  $('#sgNext').textContent=SG.k+1<SG.rounds.length?'Siguiente ronda':'Ver resultado';$('#sgNextRow').hidden=false;sgRender();
+}
+function sgEnd(){
+  let n=0,ok=0;Object.values(SG.stats).forEach(s=>{n+=s.n;ok+=s.ok});const r=n?Math.round(ok/n*100):0,N=SG.rounds.length;
+  $('#sgBtns').hidden=true;$('#sgNextRow').hidden=true;
+  $('#sgTitle').textContent=SG.hits+' de '+N+' aciertos';
+  $('#sgLesson').textContent='En este gráfico de '+SYMS[SG.sym].d+' encontramos '+n+' señales clásicas y se cumplieron '+ok+' ('+r+'%). '+(r>=40&&r<=60?'Casi como lanzar una moneda: ninguna señal sola es garantía.':r>60?'Esta vez funcionaron bastante, pero en otros mercados y fechas el resultado cambia mucho.':'Esta vez la mayoría falló: seguir una señal a ciegas puede salir caro.');
+  $('#sgResult').hidden=false;onEvent('senal',{hits:SG.hits});
+  SG.done={hits:SG.hits,N,r};
+}
+$('#sgYes').onclick=()=>sgAnswer(true);$('#sgNo').onclick=()=>sgAnswer(false);
+$('#sgNext').onclick=()=>{if(SG.k+1<SG.rounds.length){SG.k++;SG.answered=false;$('#sgFb').textContent='';$('#sgNextRow').hidden=true;sgRender()}else sgEnd()};
+$('#sgAgain').onclick=()=>{window.scrollTo(0,0);sgStart()};
+$('#sgCopy').onclick=()=>{if(!SG.done)return;copyText('Sube/Baja · Señal o ruido: acerté '+SG.done.hits+' de '+SG.done.N+'. Las señales famosas se cumplieron solo el '+SG.done.r+'% de las veces.\n'+SITE_URL,$('#sgCopy'))};
+$('#sgCard').onclick=()=>{if(!SG.done)return;showCard({tag:'Señal o ruido',title:'Las señales famosas se cumplieron el '+SG.done.r+'% de las veces',big:SG.done.hits+'/'+SG.done.N,bigColor:css()('--gold'),squares:SG.res.map(q=>q.ok),sub:['RSI, cruces de medias, Bollinger y rupturas en gráficos reales.']},'Señal o ruido en Sube/Baja')};
+
+/* ---------- enlaces de reto (?p=…, ?duelo=…) ---------- */
+let RETO_SEED=null,LINK_VIEW=null;
+(function readLinks(){
+  let q;try{q=new URLSearchParams(location.search)}catch(e){return}
+  const de=(q.get('de')||'Un amigo').slice(0,20);
+  if(q.get('p')&&/^\d{1,10}$/.test(q.get('p'))){RETO_SEED=+q.get('p');const pt=parseInt(q.get('pt'),10);
+    const bn=$('#retoBanner');bn.hidden=false;bn.innerHTML='<b>'+esc(de)+'</b> te retó en este gráfico'+(isFinite(pt)?': sacó <b>'+(pt>0?'+':'')+pt+' puntos</b>':'')+'. ¿Lo superas?';
+    LINK_VIEW='reto';try{history.replaceState(null,'',location.pathname+'#reto')}catch(e){}}
+  const dl=q.get('duelo');
+  if(dl&&SYMS[dl]){$('#dMkt').value=dl;const lv=q.get('lev'),mt=q.get('meta');
+    document.querySelectorAll('#dLev [data-v]').forEach(b=>{if(b.dataset.v===lv){b.click()}});document.querySelectorAll('#dGoal [data-v]').forEach(b=>{if(+b.dataset.v===+mt){b.click()}});
+    const bn=$('#duelBanner');bn.hidden=false;bn.innerHTML='<b>'+esc(de)+'</b> jugó este duelo ('+esc(SYMS[dl].d)+' x'+esc(lv||'')+', meta ±'+Math.round((+mt||0)*100)+'%) y '+(q.get('r')==='1'?'le ganó al mono':'perdió contra el mono')+' en '+esc(q.get('min')||'?')+' min. ¿Lo haces mejor?';
+    LINK_VIEW='mono';try{history.replaceState(null,'',location.pathname+'#mono')}catch(e){}}
+})();
+
 /* ---------- arranque ---------- */
 (async()=>{
   const ok=await loadTickers();
   if(ok){openTicker();openKraken()}else startSim();
   redraw();loadChart();duelRules();
 })();
-liqInfo();
-let first='mercados';try{const h=(location.hash||'').slice(1);if(VIEWS.includes(h))first=h}catch(e){}
+liqInfo();paintLevel();
+let first=LINK_VIEW||'mercados';if(!LINK_VIEW)try{const h=(location.hash||'').slice(1);if(VIEWS.includes(h))first=h}catch(e){}
 go(first);
 window.addEventListener('hashchange',()=>{const h=(location.hash||'').slice(1);if(VIEWS.includes(h)&&h!==current)go(h)});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(redraw);
