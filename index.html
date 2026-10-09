@@ -175,7 +175,7 @@ section.view{display:grid;gap:16px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 
 /* duelo */
-.setup{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:16px;align-items:end;padding:16px}
+.setup{display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) repeat(2,auto) auto;gap:16px;align-items:end;padding:16px}
 .field{display:grid;gap:6px}
 .field label,.field .lb{font-size:12.5px;color:var(--muted);font-weight:500}
 .field input[type=number],.field input[type=text],.field select{background:var(--bg);border:1px solid var(--line);color:var(--fg);border-radius:7px;padding:9px 12px;font-family:var(--f-mono);font-size:15px;width:100%}
@@ -488,6 +488,7 @@ footer p{max-width:100ch}
   <div class="banner" id="duelBanner" hidden></div>
   <div class="panel" id="duelSetup">
     <div class="setup">
+      <div class="field"><span class="lb">Gráfico</span><div class="seg" id="dMode"><button data-m="real" aria-pressed="true">Real · velas de 1 s</button><button data-m="sim">Simulado rápido</button></div></div>
       <div class="field"><label for="dMkt">Mercado</label><select id="dMkt"></select></div>
       <div class="field"><span class="lb">Apalancamiento</span><div class="seg" id="dLev"><button data-v="10" aria-pressed="true">x10</button><button data-v="25">x25</button><button data-v="50">x50</button><button data-v="100">x100</button></div></div>
       <div class="field"><span class="lb">Meta de ganancia (y límite de pérdida)</span><div class="seg" id="dGoal"><button data-v="0.03">±3%</button><button data-v="0.05" aria-pressed="true">±5%</button><button data-v="0.1">±10%</button><button data-v="0.2">±20%</button></div></div>
@@ -688,7 +689,19 @@ footer p{max-width:100ch}
     </div>
   </div>
   <div class="panel pad" style="display:grid;gap:12px">
-    <span class="label">Guardar tu progreso</span>
+    <span class="label">Cuenta con correo</span>
+    <div id="acctOut" style="display:grid;gap:10px">
+      <p class="muted small" style="max-width:80ch">Crea una cuenta para entrar desde cualquier celular o computador con tu correo y contraseña. Tu progreso se guarda solo en tu cuenta.</p>
+      <div class="row"><input type="email" id="acEmail" class="codein" style="text-transform:none" placeholder="tu@correo.com" autocomplete="email" aria-label="Correo"><input type="password" id="acPass" class="codein" style="text-transform:none" placeholder="Contraseña (mínimo 6)" autocomplete="current-password" aria-label="Contraseña"><button class="btn primary" id="acIn">Entrar</button><button class="btn" id="acUp">Crear cuenta</button></div>
+      <p class="small" id="acMsg" aria-live="polite"></p>
+    </div>
+    <div id="acctIn" hidden style="display:grid;gap:10px">
+      <p>Conectado como <b id="acWho"></b>. Tu progreso se guarda solo en tu cuenta.</p>
+      <div class="row"><button class="btn" id="acOut">Cerrar sesión</button><span class="muted small" id="acSync"></span></div>
+    </div>
+  </div>
+  <div class="panel pad" style="display:grid;gap:12px">
+    <span class="label">Guardar tu progreso sin correo</span>
     <p class="muted small" style="max-width:80ch">Tu progreso vive en este navegador. Con tu <b>código de recuperación</b> lo guardas en la nube y lo recuperas en otro celular o computador. Guárdalo en un lugar seguro: quien tenga el código puede usar tu perfil.</p>
     <div class="row"><code class="code num" id="pfCode">—</code><button class="btn" id="pfCopy">Copiar código</button><button class="btn primary" id="pfSave">Guardar en la nube</button><span class="muted small" id="pfSaveMsg"></span></div>
     <div class="row"><input type="text" id="pfIn" placeholder="SB-XXXX-XXXX-XXXX-XXXX" maxlength="22" aria-label="Código de recuperación" class="codein"><button class="btn" id="pfLoad">Usar este código aquí</button><span class="muted small" id="pfLoadMsg"></span></div>
@@ -729,8 +742,8 @@ const API="https://data-api.binance.vision/api/v3";
 const WSB="wss://data-stream.binance.vision";
 const KAPI="https://api.kraken.com/0/public";
 const KWS="wss://ws.kraken.com/v2";
-const SB_URL="https://xmdmgmkkrwsyqooiqitk.supabase.co";
-const SB_KEY="sb_publishable_3mgeusL7H7wQDGKPsrw73Q__dJ0jvT6";
+const SB_URL="https://kuyeziqwschacefbgjhs.supabase.co";
+const SB_KEY="sb_publishable_DAyCnLHJVHprc-QO7QOp4g_15UV8NEA";
 const DAY=864e5;
 const $=s=>document.querySelector(s);
 
@@ -769,10 +782,10 @@ const CLS={b:'cripto',k:'forex',s:'acciones'},CLS_DEF={cripto:'BTCUSDT',forex:'E
 const clsOf=s=>CLS[SYMS[s].src];
 const FN=SB_URL+'/functions/v1/sob-acciones';
 const K2S={};FX.forEach(s=>{K2S[SYMS[s].d]=s});
-const isFx=s=>SYMS[s].src==='k',isStk=s=>SYMS[s].src==='s';
+const isFx=s=>(SYMS[s]||{}).src==='k',isStk=s=>(SYMS[s]||{}).src==='s';
 const short=s=>SYMS[s].d.split('/')[0];
 function dec(s,p){if(isStk(s))return 2;if(isFx(s))return s.includes('JPY')?3:5;return p>=100?2:p>=1?4:p>=.01?5:7}
-function fmtS(s,p){if(!isFinite(p))return '—';return p.toLocaleString('es-CO',{minimumFractionDigits:dec(s,p),maximumFractionDigits:dec(s,p)})}
+function fmtS(s,p){if(!isFinite(p))return '—';if(!SYMS[s])return fmt(p);return p.toLocaleString('es-CO',{minimumFractionDigits:dec(s,p),maximumFractionDigits:dec(s,p)})}
 const TFMS={'1m':6e4,'5m':3e5,'15m':9e5,'1h':36e5,'4h':144e5,'1d':864e5};
 const TFK={'1m':1,'5m':5,'15m':15,'1h':60,'4h':240,'1d':1440};
 async function klines(sym,interval,opt={}){
@@ -1235,38 +1248,59 @@ $('#btnPractice').onclick=()=>{$('#retoFb').textContent='';retoSent=false;setupR
    DUELO VS. MONO (tiempo real)
    ========================================================= */
 ALL.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=SYMS[s].d+' · '+SYMS[s].n;$('#dMkt').appendChild(o)});
-const DS={lev:10,goal:.05};
+const DS={lev:10,goal:.05,mode:'real'};
 function segPick(id,key){$(id).addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b)return;DS[key]=+b.dataset.v;$(id).querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));duelRules()})}
 segPick('#dLev','lev');segPick('#dGoal','goal');$('#dMkt').addEventListener('change',duelRules);
-const feeOf=s=>isFx(s)?.0001:isStk(s)?.0002:.0004;
+$('#dMode').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!b)return;DS.mode=b.dataset.m;$('#dMode').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));$('#dMkt').disabled=DS.mode==='sim';duelRules()});
+const feeOf=s=>s==='SIM'?.0004:isFx(s)?.0001:isStk(s)?.0002:.0004;
+const duelSym=()=>DS.mode==='sim'?'SIM':$('#dMkt').value;
 // abrir y cerrar no puede costar más de la mitad de la meta: si no, la comisión decide el duelo
 const duelBlocked=(s,lev,g)=>2*feeOf(s)*lev>g/2;
-function duelRules(){const s=$('#dMkt').value,g=DS.goal,f=feeOf(s),mv=g/DS.lev;
+function duelRules(){const s=duelSym(),g=DS.goal,f=feeOf(s),mv=g/DS.lev;
   const bad=duelBlocked(s,DS.lev,g);$('#duelGo').disabled=bad;
   if(bad){$('#duelRules').innerHTML='<span class="down">Con x'+DS.lev+', abrir y cerrar te cuesta '+(2*f*DS.lev*100).toLocaleString('es-CO',{maximumFractionDigits:2})+'% de tu saldo en comisiones: más de la mitad de la meta de ±'+Math.round(g*100)+'%. Las comisiones decidirían el duelo, no tú.</span> Sube la meta o baja el apalancamiento.';return}
-  $('#duelRules').innerHTML='Ganas si llegas a <b>'+usd(1000*(1+g))+'</b>. Quedas eliminado si bajas a <b>'+usd(1000*(1-g))+'</b>. Con x'+DS.lev+', eso es un movimiento de <b>'+(mv*100).toLocaleString('es-CO',{maximumFractionDigits:3})+'%</b> del precio. Comisión: '+(f*100).toLocaleString('es-CO')+'% del tamaño de la posición al abrir y al cerrar (con x'+DS.lev+' son '+(f*DS.lev*100).toLocaleString('es-CO',{maximumFractionDigits:2})+'% de tu saldo cada vez). '+(isFx(s)?'El forex no se mueve los fines de semana.':'')}
+  $('#duelRules').innerHTML='Ganas si llegas a <b>'+usd(1000*(1+g))+'</b>. Quedas eliminado si bajas a <b>'+usd(1000*(1-g))+'</b>. Con x'+DS.lev+', eso es un movimiento de <b>'+(mv*100).toLocaleString('es-CO',{maximumFractionDigits:3})+'%</b> del precio. Comisión: '+(f*100).toLocaleString('es-CO')+'% del tamaño de la posición al abrir y al cerrar (con x'+DS.lev+' son '+(f*DS.lev*100).toLocaleString('es-CO',{maximumFractionDigits:2})+'% de tu saldo cada vez). '+(s==='SIM'?'<br>Mercado simulado: una vela por segundo, con tendencias y sustos al azar. Un duelo suele durar entre 1 y 5 minutos.':(CRYPTO.includes(s)?'<br>Velas reales de 1 segundo, directo de Binance.':isFx(s)?'<br>Velas de 1 segundo armadas con cada cambio de precio real. El forex no se mueve los fines de semana.':'<br>Acciones: el precio llega cada 10 segundos y solo se mueve con la bolsa abierta.'))}
+// precio actual del duelo según el modo
+function dName(){return MN.mode==='sim'?'Mercado simulado':SYMS[MN.sym].d}
+function dP(){return MN.mode==='sim'?MN.sp:(MN.p1||M.px[MN.sym])}
+function dStop(){clearInterval(MN.timer);clearInterval(MN.simT);if(MN.ws){MN.ws.onclose=null;try{MN.ws.close()}catch(e){}MN.ws=null}}
+function dOpen1s(sym){
+  let ws;try{ws=new WebSocket(WSB+'/ws/'+sym.toLowerCase()+'@kline_1s')}catch(e){return}MN.ws=ws;
+  ws.onmessage=ev=>{if(!MN.run||MN.ws!==ws)return;try{const k=JSON.parse(ev.data).k,b={t:k.t,o:+k.o,h:+k.h,l:+k.l,c:+k.c,v:+k.q};_mn.L.last=b;_mn.L.cs.update(barOf(b));_mn.L.vs.update(volOf(b));MN.p1=b.c;MN.lastTick=Date.now();duelCheck();renderDuel()}catch(e){}};
+  ws.onclose=()=>{if(MN.run&&MN.ws===ws)setTimeout(()=>{if(MN.run&&MN.ws===ws)dOpen1s(sym)},2000)};
+  ws.onerror=()=>{try{ws.close()}catch(e){}};
+}
+function dSimTick(){if(!MN.run)return;const r=Math.random;if(r()<.006)MN.drift=(r()-.5)*.00004;let x=MN.drift+gauss(r)*.00018;if(r()<.002)x+=(r()<.5?-1:1)*.001;MN.sp*=Math.exp(x);lwTick(_mn.L,MN.sp);duelCheck();renderDuel()}
 let MN={run:false};
 const _mn={L:null,lines:[]}; // el gráfico del duelo se crea una sola vez y se reutiliza
 function dVal(w,p){if(!w.pos)return w.base;return Math.max(0,w.base*(1+w.pos*MN.lev*(p/w.entry-1)))}
 function dPriceFor(w,target){return w.entry*(1+(target/w.base-1)/(w.pos*MN.lev))}
 async function duelStart(){
-  const sym=$('#dMkt').value;if(!M.px[sym]){$('#duelRules').textContent='Esperando el precio de '+SYMS[sym].d+'…';return}
-  MN={run:true,sym,lev:DS.lev,goal:DS.goal,fee:feeOf(sym),start:Date.now(),you:{base:1000,pos:0,entry:0,n:0},mono:{base:1000,pos:0,entry:0,n:0,next:Date.now()+8000+Math.random()*20000},marks:[]};
-  $('#duelSetup').hidden=true;$('#duel').hidden=false;$('#monoResult').hidden=true;
-  $('#dMktTxt').textContent=SYMS[sym].d+' · x'+MN.lev+' · meta ±'+Math.round(MN.goal*100)+'%';
+  const mode=DS.mode,sym=mode==='sim'?'SIM':$('#dMkt').value;
+  if(mode==='real'&&!M.px[sym]){$('#duelRules').textContent='Esperando el precio de '+SYMS[sym].d+'…';return}
+  if(MN.run)dStop();
+  MN={run:true,mode,sym,lev:DS.lev,goal:DS.goal,fee:feeOf(sym),start:Date.now(),lastTick:Date.now(),sp:100,drift:0,p1:null,
+    you:{base:1000,pos:0,entry:0,n:0},mono:{base:1000,pos:0,entry:0,n:0,next:Date.now()+6000+Math.random()*12000},marks:[]};
+  $('#duelSetup').hidden=true;$('#duelBanner').hidden=true;$('#duel').hidden=false;$('#monoResult').hidden=true;
+  $('#dMktTxt').textContent=(mode==='sim'?'Mercado simulado':SYMS[sym].d)+' · x'+MN.lev+' · meta ±'+Math.round(MN.goal*100)+'%';
   ['1','2'].forEach(k=>{$('#dLo'+k).textContent=usd(1000*(1-MN.goal));$('#dHi'+k).textContent=usd(1000*(1+MN.goal))});
-  if(!_mn.L)_mn.L=mkLW($('#duelLwc'));
-  if(_mn.L){_mn.lines.forEach(l=>{try{_mn.L.cs.removePriceLine(l)}catch(e){}});_mn.lines=[];_mn.L.cs.setMarkers([]);
-    $('#duelNote').hidden=false;$('#duelNote').textContent='Cargando '+SYMS[sym].d+'…';let ks=null;try{ks=await history(sym,'1m',240)}catch(e){}
-    if(!ks||!ks.length)ks=simCandles(60,M.px[sym],.0008,1,6e4,Date.now()-60*6e4);_mn.L.tf=6e4;lwSet(_mn.L,sym,ks);$('#duelNote').hidden=true}
+  if(!_mn.L){_mn.L=mkLW($('#duelLwc'));if(_mn.L)_mn.L.ch.applyOptions({timeScale:{secondsVisible:true}})}
+  if(_mn.L){_mn.lines.forEach(l=>{try{_mn.L.cs.removePriceLine(l)}catch(e){}});_mn.lines=[];_mn.L.cs.setMarkers([]);_mn.L.tf=1000;
+    $('#duelNote').hidden=false;$('#duelNote').textContent='Cargando…';let ks=null;
+    if(mode==='sim')ks=simCandles(90,100,.00045,(Math.random()*1e9)|0,1000,Math.floor(Date.now()/1000)*1000-90000);
+    else if(CRYPTO.includes(sym)){try{ks=await klines(sym,'1s',{limit:300})}catch(e){}}
+    if(!ks||!ks.length){const p=M.px[sym];ks=[{t:Math.floor(Date.now()/1000)*1000,o:p,h:p,l:p,c:p,v:0}]}
+    if(mode==='sim')MN.sp=ks[ks.length-1].c;
+    lwSet(_mn.L,sym,ks);try{_mn.L.ch.timeScale().setVisibleLogicalRange({from:Math.max(0,ks.length-120),to:ks.length+8})}catch(e){}$('#duelNote').hidden=true}
+  if(mode==='sim')MN.simT=setInterval(dSimTick,250);else if(CRYPTO.includes(sym)&&!M.sim)dOpen1s(sym);
   MN.timer=setInterval(duelSecond,1000);renderDuel();
 }
 function dSet(w,p,who){
-  const price=M.px[MN.sym];if(!MN.run||w.pos===p)return;
+  const price=dP();if(!MN.run||w.pos===p)return;
   if(w.pos){w.base=dVal(w,price)*(1-MN.fee*MN.lev)}
   if(p){w.base*=1-MN.fee*MN.lev;w.entry=price}
   w.pos=p;w.n++;
-  const C=css();MN.marks.push({time:lt(Math.floor(Date.now()/6e4)*6e4),position:p>0?'belowBar':'aboveBar',color:who==='you'?C('--accent'):C('--muted'),shape:p>0?'arrowUp':p<0?'arrowDown':'circle',text:(who==='you'?'Tú':'Mono')+(p>0?' compra':p<0?' vende':' cierra')});
+  const C=css();MN.marks.push({time:lt(Math.floor(Date.now()/1000)*1000),position:p>0?'belowBar':'aboveBar',color:who==='you'?C('--accent'):C('--muted'),shape:p>0?'arrowUp':p<0?'arrowDown':'circle',text:(who==='you'?'Tú':'Mono')+(p>0?' compra':p<0?' vende':' cierra')});
   if(_mn.L)try{_mn.L.cs.setMarkers(MN.marks.slice(-40))}catch(e){}
   if(who==='you')duelLines();
   duelCheck();renderDuel();
@@ -1277,17 +1311,19 @@ function duelLines(){const L=_mn.L;if(!L)return;_mn.lines.forEach(l=>{try{L.cs.r
   _mn.lines.push(L.cs.createPriceLine({price:dPriceFor(w,1000*(1-MN.goal)),color:C('--down'),lineWidth:1,lineStyle:2,axisLabelVisible:true,title:'Eliminado'}))}
 function duelSecond(){
   if(!MN.run)return;const now=Date.now();
-  if(now>=MN.mono.next){const o=[-1,0,1].filter(v=>v!==MN.mono.pos);const np=o[Math.random()<.5?0:1];dSet(MN.mono,np,'mono');MN.mono.next=now+20000+Math.random()*100000;
+  if(now>=MN.mono.next){const o=[-1,0,1].filter(v=>v!==MN.mono.pos);const np=o[Math.random()<.5?0:1];dSet(MN.mono,np,'mono');MN.mono.next=now+10000+Math.random()*50000;
     const b=$('#monoBubble');b.textContent='Mono: '+(np>0?'compra':np<0?'vende en corto':'cierra');b.classList.add('show');setTimeout(()=>b.classList.remove('show'),2500)}
-  const stale=now-(M.lastT[MN.sym]||MN.start);
+  // en velas de 1 s, si no llega precio nuevo se repite la vela para que el gráfico siga corriendo
+  if(MN.mode==='real'&&!CRYPTO.includes(MN.sym))lwTick(_mn.L,dP());
+  const stale=MN.mode==='sim'?0:now-Math.max(MN.lastTick,M.lastT[MN.sym]||0);
   $('#duelMsg').textContent=stale>90000?'El precio no se mueve hace '+Math.round(stale/60000)+' min. '+(isFx(MN.sym)?'El forex está cerrado los fines de semana.':isStk(MN.sym)?'La bolsa de EE.UU. está cerrada (abre lunes a viernes, 9:30 a 16:00 de Nueva York).':'Revisa tu conexión.'):'Las líneas punteadas del gráfico muestran tu entrada, tu meta y tu eliminación.';
   renderDuel();
 }
-function duelOnPrice(s){if(!MN.run||s!==MN.sym)return;lwTick(_mn.L,M.px[s]);duelCheck();renderDuel()}
-function duelCheck(){if(!MN.run)return;const p=M.px[MN.sym],y=dVal(MN.you,p)/1000-1,m=dVal(MN.mono,p)/1000-1,g=MN.goal;
+function duelOnPrice(s){if(!MN.run||MN.mode!=='real'||s!==MN.sym||(CRYPTO.includes(s)&&MN.ws))return;lwTick(_mn.L,M.px[s]);duelCheck();renderDuel()}
+function duelCheck(){if(!MN.run)return;const p=dP(),y=dVal(MN.you,p)/1000-1,m=dVal(MN.mono,p)/1000-1,g=MN.goal;
   if(y>=g)duelEnd('you','Llegaste a la meta');else if(m>=g)duelEnd('mono','El mono llegó a la meta');else if(y<=-g)duelEnd('mono','Quedaste eliminado');else if(m<=-g)duelEnd('you','El mono quedó eliminado')}
 function posTxt(p){return p>0?'LARGO x'+MN.lev:p<0?'CORTO x'+MN.lev:'SIN POSICIÓN'}
-function renderDuel(){if(!MN.sym)return;const p=M.px[MN.sym];
+function renderDuel(){if(!MN.sym)return;const p=dP();
   [['you','#dYou','#dYouPos','#dYouM'],['mono','#dMono','#dMonoPos','#dMonoM']].forEach(([k,a,b,c])=>{const w=MN[k],v=dVal(w,p),r=v/1000-1;$(a).textContent=usd(v);cls($(a),r);$(b).textContent=posTxt(w.pos);cls($(b),w.pos);$(c).style.left=Math.max(0,Math.min(100,50+r/MN.goal*50))+'%'});
   const el=Math.floor(((MN.end||Date.now())-MN.start)/1000);$('#dClock').textContent=String(Math.floor(el/3600)).padStart(2,'0')+':'+String(Math.floor(el/60)%60).padStart(2,'0')+':'+String(el%60).padStart(2,'0');
   $('#dPx').textContent=fmtS(MN.sym,p);
@@ -1295,9 +1331,9 @@ function renderDuel(){if(!MN.sym)return;const p=M.px[MN.sym];
   $('#mBuy').classList.toggle('on',MN.you.pos>0);$('#mSell').classList.toggle('on',MN.you.pos<0);$('#mFlat').classList.toggle('on',MN.run&&MN.you.pos===0);
 }
 function duelEnd(winner,why){
-  MN.run=false;MN.end=Date.now();MN.winner=winner;clearInterval(MN.timer);renderDuel();onEvent('duel',{win:winner==='you',lev:MN.lev});
-  const win=winner==='you',p=M.px[MN.sym],y=dVal(MN.you,p),m=dVal(MN.mono,p);const mins=Math.max(1,Math.round((MN.end-MN.start)/60000));
-  $('#mrWhen').textContent=SYMS[MN.sym].d+' en vivo · x'+MN.lev+' · meta ±'+Math.round(MN.goal*100)+'% · '+mins+' min';
+  MN.run=false;MN.end=Date.now();MN.winner=winner;dStop();renderDuel();onEvent('duel',{win:winner==='you',lev:MN.lev});
+  const win=winner==='you',p=dP(),y=dVal(MN.you,p),m=dVal(MN.mono,p);const mins=Math.max(1,Math.round((MN.end-MN.start)/60000));
+  $('#mrWhen').textContent=(MN.mode==='sim'?'Mercado simulado':dName()+' en vivo, velas de 1 s')+' · x'+MN.lev+' · meta ±'+Math.round(MN.goal*100)+'% · '+mins+' min';
   $('#mrTitle').textContent=(win?'Ganaste: ':'Perdiste: ')+why.toLowerCase();
   $('#mrPct').innerHTML='Tú: <span class="num '+(y>=1000?'up':'down')+'">'+usd(y)+'</span> · Mono: <span class="num '+(m>=1000?'up':'down')+'">'+usd(m)+'</span>. Hiciste '+MN.you.n+' operaciones; el mono hizo '+MN.mono.n+'.';
   $('#mrLesson').textContent=MN.you.n>8?'Cada operación con x'+MN.lev+' te costó '+(MN.fee*MN.lev*100).toLocaleString('es-CO',{maximumFractionDigits:2})+'% de tu saldo en comisiones. Operar menos y esperar mejores entradas suele ayudar más.':win?'Bien jugado. En un duelo el azar pesa mucho: juega varios antes de sacar conclusiones.':'Contra un rival al azar, perder es más común de lo que parece: el apalancamiento y las comisiones castigan a los dos por igual.';
@@ -1305,7 +1341,7 @@ function duelEnd(winner,why){
   const rv=$('#mrRank');
   if(ME.name){RK.mono.plays++;if(win)RK.mono.wins++;save('sob-rk-mono',RK.mono);rv.textContent='Guardando en el ranking…';submit('mono','all',0,RK.mono.wins,RK.mono.plays).then(ok=>{rv.innerHTML=ok?'Ranking: <b>'+esc(ME.name)+'</b> lleva '+RK.mono.wins+' de '+RK.mono.plays+' duelos ganados.':'No se pudo guardar en el ranking.'})}
   else{rv.innerHTML='Este duelo no cuenta para el ranking porque no tienes nombre. <button class="linkbtn" id="mrName">Poner nombre</button> (cuenta desde el próximo duelo).';$('#mrName').onclick=()=>askName()}
-  shareSetup('Sube/Baja · Duelo vs. Mono en vivo\n'+SYMS[MN.sym].d+' x'+MN.lev+', meta ±'+Math.round(MN.goal*100)+'%\n'+(win?'Le gané al mono':'El mono me ganó')+' en '+mins+' min. Yo: '+usd(y)+' · Mono: '+usd(m),'#mShareTxt','#mCopy','#mWa','#mX');
+  shareSetup('Sube/Baja · Duelo vs. Mono en vivo\n'+dName()+' x'+MN.lev+', meta ±'+Math.round(MN.goal*100)+'%\n'+(win?'Le gané al mono':'El mono me ganó')+' en '+mins+' min. Yo: '+usd(y)+' · Mono: '+usd(m),'#mShareTxt','#mCopy','#mWa','#mX');
   $('#monoResult').hidden=false;setTimeout(()=>$('#monoResult').scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'}),50);
 }
 $('#duelGo').onclick=duelStart;
@@ -1514,8 +1550,51 @@ $('#pfEdit').onclick=()=>askName(()=>{renderPerfil();scheduleSync()});
 /* ---------- progreso en la nube con código ---------- */
 function genCode(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',a=new Uint32Array(16);crypto.getRandomValues(a);let s='SB';for(let i=0;i<16;i++){if(i%4===0)s+='-';s+=A[a[i]%A.length]}return s}
 const SYNC={code:load('sob-code')||genCode(),on:!!load('sob-sync'),t:null};save('sob-code',SYNC.code);
-function cloudSave(){return sb('rpc/sob_profile_save',{method:'POST',body:JSON.stringify({p_code:SYNC.code,p_player:ME.id,p_name:ME.name||'',p_data:{c:C,pred:P.st,rkp:RK.pred,rkm:RK.mono,streak:load('sob-streak')||null}})})}
-function scheduleSync(){if(!SYNC.on)return;clearTimeout(SYNC.t);SYNC.t=setTimeout(()=>cloudSave().catch(()=>{}),4000)}
+function payload(){return{c:C,pred:P.st,rkp:RK.pred,rkm:RK.mono,streak:load('sob-streak')||null}}
+function cloudSave(){return sb('rpc/sob_profile_save',{method:'POST',body:JSON.stringify({p_code:SYNC.code,p_player:ME.id,p_name:ME.name||'',p_data:payload()})})}
+function scheduleSync(){if(!SYNC.on&&!AUTH.s)return;clearTimeout(SYNC.t);SYNC.t=setTimeout(()=>{if(SYNC.on)cloudSave().catch(()=>{});if(AUTH.s)acctSync().catch(()=>{})},4000)}
+// trae un perfil guardado (por código o por cuenta) a este dispositivo y recarga
+function applyRemote(player,name,x){x=x||{};save('sob-player',player);if(name)save('sob-name',name);
+  if(x.c)save('sob-c',x.c);if(x.pred)save('sob-pred',x.pred);if(x.rkp)save('sob-rk-pred',x.rkp);if(x.rkm)save('sob-rk-mono',x.rkm);if(x.streak)save('sob-streak',x.streak);setTimeout(()=>location.reload(),600)}
+
+/* ---------- cuentas con correo (Supabase Auth del proyecto propio de Sube/Baja) ---------- */
+const AUTH={s:load('sob-sess')};
+function authErr(j){const m=String(j.msg||j.error_description||j.message||j.error||'').toLowerCase();
+  if(m.includes('invalid login'))return 'Correo o contraseña incorrectos.';if(m.includes('already'))return 'Ese correo ya tiene cuenta. Usa "Entrar".';
+  if(m.includes('not confirmed'))return 'Falta confirmar el correo.';if(m.includes('password'))return 'La contraseña debe tener al menos 6 caracteres.';
+  if(m.includes('email'))return 'Revisa que el correo esté bien escrito.';return j.msg||j.error_description||j.message||'Algo salió mal. Intenta otra vez.'}
+async function authReq(path,body,tok){const r=await fetchT(SB_URL+'/auth/v1/'+path,{method:'POST',headers:{apikey:SB_KEY,'Content-Type':'application/json',...(tok?{Authorization:'Bearer '+tok}:{})},body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(authErr(j));return j}
+function setSess(j){AUTH.s={at:j.access_token,rt:j.refresh_token,exp:Date.now()+(j.expires_in||3600)*1000-60000,email:j.user&&j.user.email,uid:j.user&&j.user.id};save('sob-sess',AUTH.s)}
+async function token(){if(!AUTH.s)return null;if(Date.now()<AUTH.s.exp)return AUTH.s.at;
+  try{setSess(await authReq('token?grant_type=refresh_token',{refresh_token:AUTH.s.rt}));return AUTH.s.at}catch(e){AUTH.s=null;save('sob-sess',null);paintAcct();return null}}
+async function sbAuth(path,opt={}){const t=await token();if(!t)throw new Error('Tu sesión se cerró. Entra otra vez.');return sb(path,{...opt,headers:{Authorization:'Bearer '+t,...(opt.headers||{})}})}
+function acctSync(){if(!AUTH.s)return Promise.resolve();return sbAuth('sob_accounts?user_id=eq.'+AUTH.s.uid,{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({name:ME.name||null,data:payload(),updated_at:new Date().toISOString()})}).then(()=>{const el=$('#acSync');if(el)el.textContent='Guardado '+new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'})})}
+async function afterLogin(){
+  const msg=$('#acMsg');msg.textContent='Cargando tu cuenta…';
+  const rows=await sbAuth('sob_accounts?select=player,name,data');
+  if(rows&&rows.length){const a=rows[0];if(a.player===ME.id){paintAcct();return acctSync()}msg.textContent='Listo. Trayendo tu progreso…';return applyRemote(a.player,a.name,a.data)}
+  const ins=()=>sbAuth('sob_accounts',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({user_id:AUTH.s.uid,player:ME.id,name:ME.name||null,data:payload()})});
+  try{await ins()}catch(e){ME.id=uuid();save('sob-player',ME.id);await ins()}
+  paintAcct();toast('Cuenta creada: tu progreso queda guardado en <b>'+esc(AUTH.s.email||'tu correo')+'</b>');
+}
+function paintAcct(){const on=!!AUTH.s;$('#acctOut').hidden=on;$('#acctIn').hidden=!on;if(on)$('#acWho').textContent=AUTH.s.email||'tu cuenta'}
+async function acctGo(kind){
+  const email=$('#acEmail').value.trim(),pass=$('#acPass').value,msg=$('#acMsg');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.textContent='Escribe un correo válido.';return}
+  if(pass.length<6){msg.textContent='La contraseña debe tener al menos 6 caracteres.';return}
+  $('#acIn').disabled=$('#acUp').disabled=true;msg.textContent=kind==='up'?'Creando tu cuenta…':'Entrando…';
+  try{
+    const j=kind==='up'?await authReq('signup',{email,password:pass,data:{app:'sube-o-baja',nombre:ME.name||''}}):await authReq('token?grant_type=password',{email,password:pass});
+    if(!j.access_token){msg.textContent='Te enviamos un correo para confirmar la cuenta. Ábrelo y después pulsa "Entrar".';return}
+    setSess(j);$('#acPass').value='';await afterLogin();
+  }catch(e){msg.textContent=e.message}
+  finally{$('#acIn').disabled=$('#acUp').disabled=false}
+}
+$('#acIn').onclick=()=>acctGo('in');$('#acUp').onclick=()=>acctGo('up');
+$('#acPass').addEventListener('keydown',e=>{if(e.key==='Enter')acctGo('in')});
+$('#acOut').onclick=async()=>{const t=AUTH.s&&AUTH.s.at;AUTH.s=null;save('sob-sess',null);paintAcct();$('#acMsg').textContent='Sesión cerrada. Tu progreso sigue en este dispositivo.';if(t)authReq('logout',{},t).catch(()=>{})};
+paintAcct();
 $('#pfCopy').onclick=()=>copyText(SYNC.code,$('#pfCopy'));
 $('#pfSave').onclick=()=>{$('#pfSaveMsg').textContent='Guardando…';cloudSave().then(()=>{SYNC.on=true;save('sob-sync',1);$('#pfSaveMsg').textContent='Guardado. Desde ahora se guarda solo cada vez que juegas.'},e=>{$('#pfSaveMsg').textContent='No se pudo guardar: '+e.message})};
 let loadArm=null;
@@ -1568,9 +1647,9 @@ $('#rvChallenge').onclick=()=>{if(!RT)return;const u=SITE_URL+'?p='+RT.seed+'&de
   shareLink(u,'Te reto en Sube/Baja: saqué '+(RT.score>0?'+':'')+RT.score+' puntos en este gráfico. ¿Me ganas?',$('#rvChallenge'))};
 $('#rvCard').onclick=()=>{if(!RT)return;const s=RT.score;showCard({tag:RT.practice?'Reto · práctica':'Reto diario #'+RT.n,title:'Era '+RT.info.name,big:(s>0?'+':'')+s+' pts',bigColor:s>0?css()('--up'):s<0?css()('--down'):css()('--fg'),squares:RT.res.map(q=>q.ok),sub:[RT.res.filter(q=>q.ok).length+' de 10 aciertos · nivel '+lvlOf(C.xp).name]},'Saqué '+(s>0?'+':'')+s+' puntos en el reto de Sube/Baja')};
 $('#mChallenge').onclick=()=>{if(!MN.sym)return;const win=MN.winner==='you',mins=Math.max(1,Math.round((MN.end-MN.start)/60000));
-  const u=SITE_URL+'?duelo='+MN.sym+'&lev='+MN.lev+'&meta='+MN.goal+'&de='+encodeURIComponent(ME.name||'Un amigo')+'&r='+(win?1:0)+'&min='+mins;
-  shareLink(u,'Te reto a un duelo contra el mono en Sube/Baja: '+SYMS[MN.sym].d+' x'+MN.lev+'. '+(win?'Yo le gané':'A mí me ganó')+' en '+mins+' min.',$('#mChallenge'))};
-$('#mCard').onclick=()=>{if(!MN.sym)return;const win=MN.winner==='you',p=M.px[MN.sym],y=dVal(MN.you,p);showCard({tag:'Duelo vs. Mono · en vivo',title:(win?'Le gané al mono':'El mono me ganó')+' en '+SYMS[MN.sym].d+' x'+MN.lev,big:usd(y),bigColor:y>=1000?css()('--up'):css()('--down'),sub:['Meta ±'+Math.round(MN.goal*100)+'% · '+Math.max(1,Math.round((MN.end-MN.start)/60000))+' min · '+MN.you.n+' operaciones']},win?'Le gané al mono en Sube/Baja':'El mono me ganó en Sube/Baja')};
+  const u=SITE_URL+'?duelo='+MN.sym+'&modo='+MN.mode+'&lev='+MN.lev+'&meta='+MN.goal+'&de='+encodeURIComponent(ME.name||'Un amigo')+'&r='+(win?1:0)+'&min='+mins;
+  shareLink(u,'Te reto a un duelo contra el mono en Sube/Baja: '+dName()+' x'+MN.lev+'. '+(win?'Yo le gané':'A mí me ganó')+' en '+mins+' min.',$('#mChallenge'))};
+$('#mCard').onclick=()=>{if(!MN.sym)return;const win=MN.winner==='you',p=dP(),y=dVal(MN.you,p);showCard({tag:'Duelo vs. Mono · en vivo',title:(win?'Le gané al mono':'El mono me ganó')+' en '+dName()+' x'+MN.lev,big:usd(y),bigColor:y>=1000?css()('--up'):css()('--down'),sub:['Meta ±'+Math.round(MN.goal*100)+'% · '+Math.max(1,Math.round((MN.end-MN.start)/60000))+' min · '+MN.you.n+' operaciones']},win?'Le gané al mono en Sube/Baja':'El mono me ganó en Sube/Baja')};
 $('#cCard').onclick=()=>{if(!CR)return;const eq=crEq(),hold=10000*CR.cs[CR.cs.length-1].c/CR.cs[0].c;showCard({tag:'¿Sobrevivirías la crisis?',title:CR.sc.name,big:usd(eq),bigColor:eq>=10000?css()('--up'):css()('--down'),sub:['Empecé con $10.000. Sin tocar nada habría terminado con '+usd(hold)+'.']},'Sobreviví '+CR.sc.name+' en Sube/Baja con '+usd(eq))};
 $('#pCard').onclick=()=>{const s=P.st;showCard({tag:'Predicción en vivo',title:'Predigo cripto, forex y acciones en tiempo real',big:(s.n?Math.round(s.ok/s.n*100):0)+'%',bigColor:css()('--accent'),squares:s.hist.slice(0,10).reverse().map(h=>h.ok),sub:[s.ok+' de '+s.n+' aciertos · mejor racha '+s.best+' · nivel '+lvlOf(C.xp).name]},'Mi récord en Sube/Baja')};
 
@@ -1657,9 +1736,10 @@ let RETO_SEED=null,LINK_VIEW=null;
     const bn=$('#retoBanner');bn.hidden=false;bn.innerHTML='<b>'+esc(de)+'</b> te retó en este gráfico'+(isFinite(pt)?': sacó <b>'+(pt>0?'+':'')+pt+' puntos</b>':'')+'. ¿Lo superas?';
     LINK_VIEW='reto';try{history.replaceState(null,'',location.pathname+'#reto')}catch(e){}}
   const dl=q.get('duelo');
-  if(dl&&SYMS[dl]){$('#dMkt').value=dl;const lv=q.get('lev'),mt=q.get('meta');
+  if(dl&&(SYMS[dl]||dl==='SIM')){const sim=dl==='SIM'||q.get('modo')==='sim';if(SYMS[dl])$('#dMkt').value=dl;const lv=q.get('lev'),mt=q.get('meta');
+    $('#dMode [data-m="'+(sim?'sim':'real')+'"]').click();
     document.querySelectorAll('#dLev [data-v]').forEach(b=>{if(b.dataset.v===lv){b.click()}});document.querySelectorAll('#dGoal [data-v]').forEach(b=>{if(+b.dataset.v===+mt){b.click()}});
-    const bn=$('#duelBanner');bn.hidden=false;bn.innerHTML='<b>'+esc(de)+'</b> jugó este duelo ('+esc(SYMS[dl].d)+' x'+esc(lv||'')+', meta ±'+Math.round((+mt||0)*100)+'%) y '+(q.get('r')==='1'?'le ganó al mono':'perdió contra el mono')+' en '+esc(q.get('min')||'?')+' min. ¿Lo haces mejor?';
+    const bn=$('#duelBanner');bn.hidden=false;bn.innerHTML='<b>'+esc(de)+'</b> jugó este duelo ('+esc(sim?'mercado simulado':SYMS[dl].d)+' x'+esc(lv||'')+', meta ±'+Math.round((+mt||0)*100)+'%) y '+(q.get('r')==='1'?'le ganó al mono':'perdió contra el mono')+' en '+esc(q.get('min')||'?')+' min. ¿Lo haces mejor?';
     LINK_VIEW='mono';try{history.replaceState(null,'',location.pathname+'#mono')}catch(e){}}
 })();
 
